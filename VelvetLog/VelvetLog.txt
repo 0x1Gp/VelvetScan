@@ -1,0 +1,230 @@
+2025-03-06 02:43:23,753 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:23,817 - DEBUG - https://missionlocalemarseille.fr:443 "GET / HTTP/1.1" 200 23482
+2025-03-06 02:43:23,818 - INFO - [Found] https://missionlocalemarseille.fr//
+2025-03-06 02:43:23,819 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:23,883 - DEBUG - https://missionlocalemarseille.fr:443 "GET /dup-installer-bootlog HTTP/1.1" 403 0
+2025-03-06 02:43:23,884 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///dup-installer-bootlog
+2025-03-06 02:43:23,884 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:23,985 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php HTTP/1.1" 403 0
+2025-03-06 02:43:23,986 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/install.php
+2025-03-06 02:43:23,986 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,344 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php/wp-admin/maint/repair.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,345 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/install.php/wp-admin/maint/repair.php
+2025-03-06 02:43:24,345 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,433 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-login.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,434 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-login.php
+2025-03-06 02:43:24,434 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,495 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,495 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr/////wp-admin/install.php
+2025-03-06 02:43:24,496 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,559 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-activate.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,560 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-activate.php
+2025-03-06 02:43:24,560 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,612 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/ HTTP/1.1" 200 855
+2025-03-06 02:43:24,613 - INFO - [Found] https://missionlocalemarseille.fr///wp-admin/
+2025-03-06 02:43:24,613 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,690 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/about.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,690 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/about.php
+2025-03-06 02:43:24,691 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,753 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,754 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-ajax.php
+2025-03-06 02:43:24,754 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,823 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-db.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,824 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-db.php
+2025-03-06 02:43:24,824 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,893 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-footer.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,893 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-footer.php
+2025-03-06 02:43:24,894 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:24,955 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-functions.php HTTP/1.1" 403 0
+2025-03-06 02:43:24,956 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-functions.php
+2025-03-06 02:43:24,956 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:25,020 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-header.php HTTP/1.1" 403 0
+2025-03-06 02:43:25,020 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-header.php
+2025-03-06 02:43:25,021 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:25,072 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-post.php HTTP/1.1" 200 855
+2025-03-06 02:43:25,073 - INFO - [Found] https://missionlocalemarseille.fr///wp-admin/admin-post.php
+2025-03-06 02:43:25,074 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,303 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,368 - DEBUG - https://missionlocalemarseille.fr:443 "GET / HTTP/1.1" 200 23482
+2025-03-06 02:43:40,369 - INFO - [Found] https://missionlocalemarseille.fr//
+2025-03-06 02:43:40,370 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,460 - DEBUG - https://missionlocalemarseille.fr:443 "GET /dup-installer-bootlog HTTP/1.1" 403 0
+2025-03-06 02:43:40,461 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///dup-installer-bootlog
+2025-03-06 02:43:40,461 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,527 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,528 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/install.php
+2025-03-06 02:43:40,528 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,594 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php/wp-admin/maint/repair.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,594 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/install.php/wp-admin/maint/repair.php
+2025-03-06 02:43:40,595 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,662 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-login.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,662 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-login.php
+2025-03-06 02:43:40,663 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,724 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/install.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,725 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr/////wp-admin/install.php
+2025-03-06 02:43:40,726 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,784 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-activate.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,785 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-activate.php
+2025-03-06 02:43:40,786 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,836 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/ HTTP/1.1" 200 855
+2025-03-06 02:43:40,836 - INFO - [Found] https://missionlocalemarseille.fr///wp-admin/
+2025-03-06 02:43:40,837 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,900 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/about.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,900 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/about.php
+2025-03-06 02:43:40,901 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:40,964 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 403 0
+2025-03-06 02:43:40,964 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-ajax.php
+2025-03-06 02:43:40,965 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,032 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-db.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,033 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-db.php
+2025-03-06 02:43:41,034 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,098 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-footer.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,098 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-footer.php
+2025-03-06 02:43:41,099 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,163 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-functions.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,164 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-functions.php
+2025-03-06 02:43:41,164 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,228 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-header.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,228 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-header.php
+2025-03-06 02:43:41,229 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,279 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-post.php HTTP/1.1" 200 855
+2025-03-06 02:43:41,279 - INFO - [Found] https://missionlocalemarseille.fr///wp-admin/admin-post.php
+2025-03-06 02:43:41,280 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,360 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,361 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin.php
+2025-03-06 02:43:41,362 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,423 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/async-upload.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,424 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/async-upload.php
+2025-03-06 02:43:41,424 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,488 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/bookmarklet.php HTTP/1.1" 403 0
+2025-03-06 02:43:41,488 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/bookmarklet.php
+2025-03-06 02:43:41,489 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,552 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/cat.js HTTP/1.1" 403 0
+2025-03-06 02:43:41,553 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/cat.js
+2025-03-06 02:43:41,554 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,649 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/ad-inserter/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:41,649 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/ad-inserter/readme.txt?option=com_categories
+2025-03-06 02:43:41,650 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,701 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/disable-gutenberg/readme.txt?option=com_categories HTTP/1.1" 200 5793
+2025-03-06 02:43:41,701 - INFO - [Found] https://missionlocalemarseille.fr//wp-content/plugins/disable-gutenberg/readme.txt?option=com_categories
+2025-03-06 02:43:41,702 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,765 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/elementor/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:41,766 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/elementor/readme.txt?option=com_categories
+2025-03-06 02:43:41,766 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,831 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/maintenance/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:41,831 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/maintenance/readme.txt?option=com_categories
+2025-03-06 02:43:41,832 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,900 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/loco-translate/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:41,901 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/loco-translate/readme.txt?option=com_categories
+2025-03-06 02:43:41,901 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:41,966 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/mailchimp-for-wp/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:41,967 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/mailchimp-for-wp/readme.txt?option=com_categories
+2025-03-06 02:43:41,967 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,029 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/one-click-demo-import/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:42,030 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/one-click-demo-import/readme.txt?option=com_categories
+2025-03-06 02:43:42,030 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,092 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/really-simple-ssl/readme.txt?option=com_categories HTTP/1.1" 200 10182
+2025-03-06 02:43:42,092 - INFO - [Found] https://missionlocalemarseille.fr//wp-content/plugins/really-simple-ssl/readme.txt?option=com_categories
+2025-03-06 02:43:42,093 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,176 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/svg-support/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:42,176 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/svg-support/readme.txt?option=com_categories
+2025-03-06 02:43:42,177 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,240 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/woocommerce/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:42,241 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/woocommerce/readme.txt?option=com_categories
+2025-03-06 02:43:42,242 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,306 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/wordfence/readme.txt?option=com_categories HTTP/1.1" 403 0
+2025-03-06 02:43:42,307 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr//wp-content/plugins/wordfence/readme.txt?option=com_categories
+2025-03-06 02:43:42,307 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,359 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-content/plugins/wordpress-seo/readme.txt?option=com_categories HTTP/1.1" 200 9080
+2025-03-06 02:43:42,359 - INFO - [Found] https://missionlocalemarseille.fr//wp-content/plugins/wordpress-seo/readme.txt?option=com_categories
+2025-03-06 02:43:42,360 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,619 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/blogger.php HTTP/1.1" 403 0
+2025-03-06 02:43:42,619 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/blogger.php
+2025-03-06 02:43:42,620 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,737 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/blogware.php HTTP/1.1" 403 0
+2025-03-06 02:43:42,737 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/blogware.php
+2025-03-06 02:43:42,738 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,893 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/dotclear.php HTTP/1.1" 403 0
+2025-03-06 02:43:42,894 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/dotclear.php
+2025-03-06 02:43:42,895 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:42,993 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/greymatter.php HTTP/1.1" 403 0
+2025-03-06 02:43:42,994 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/greymatter.php
+2025-03-06 02:43:42,994 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,056 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/livejournal.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,056 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/livejournal.php
+2025-03-06 02:43:43,057 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,122 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/mt.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,122 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/mt.php
+2025-03-06 02:43:43,123 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,189 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,189 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import.php
+2025-03-06 02:43:43,190 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,253 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/rss.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,254 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/rss.php
+2025-03-06 02:43:43,254 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,318 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/textpattern.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,319 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/textpattern.php
+2025-03-06 02:43:43,319 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,383 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/import/wordpress.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,384 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/import/wordpress.php
+2025-03-06 02:43:43,384 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,438 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/ HTTP/1.1" 403 199
+2025-03-06 02:43:43,439 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/
+2025-03-06 02:43:43,439 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,499 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/admin.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,499 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/admin.php
+2025-03-06 02:43:43,500 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,563 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/bookmark.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,563 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/bookmark.php
+2025-03-06 02:43:43,564 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,626 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-ftp.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,627 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-ftp.php
+2025-03-06 02:43:43,627 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,692 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-ftp-pure.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,693 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-ftp-pure.php
+2025-03-06 02:43:43,693 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,760 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-ftp-sockets.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,761 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-ftp-sockets.php
+2025-03-06 02:43:43,762 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,826 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-pclzip.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,826 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-pclzip.php
+2025-03-06 02:43:43,827 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,890 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-filesystem-base.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,891 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-filesystem-base.php
+2025-03-06 02:43:43,892 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:43,956 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-filesystem-direct.php HTTP/1.1" 403 0
+2025-03-06 02:43:43,956 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-filesystem-direct.php
+2025-03-06 02:43:43,957 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,023 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ftpext.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,023 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-filesystem-ftpext.php
+2025-03-06 02:43:44,024 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,083 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ftpsockets.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,084 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-filesystem-ftpsockets.php
+2025-03-06 02:43:44,085 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,189 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ssh2.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,189 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-filesystem-ssh2.php
+2025-03-06 02:43:44,190 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,254 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-importer.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,254 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-importer.php
+2025-03-06 02:43:44,255 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,319 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/class-wp-upgrader.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,319 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/class-wp-upgrader.php
+2025-03-06 02:43:44,320 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,385 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/comment.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,385 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/comment.php
+2025-03-06 02:43:44,386 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,447 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/continents-cities.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,448 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/continents-cities.php
+2025-03-06 02:43:44,449 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,513 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/dashboard.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,514 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/dashboard.php
+2025-03-06 02:43:44,515 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,580 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/deprecated.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,580 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/deprecated.php
+2025-03-06 02:43:44,581 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,641 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/export.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,642 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/export.php
+2025-03-06 02:43:44,642 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 02:43:44,754 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/includes/file.php HTTP/1.1" 403 0
+2025-03-06 02:43:44,755 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/includes/file.php
+2025-03-06 02:43:44,756 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
