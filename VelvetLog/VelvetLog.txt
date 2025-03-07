@@ -315,3 +315,518 @@
 2025-03-06 03:51:14,318 - DEBUG - https://missionlocalemarseille.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 403 0
 2025-03-06 03:51:14,319 - ERROR - [403 Forbidden] https://missionlocalemarseille.fr///wp-admin/admin-ajax.php
 2025-03-06 03:51:14,320 - DEBUG - Starting new HTTPS connection (1): missionlocalemarseille.fr:443
+2025-03-06 05:02:21,776 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:21,825 - DEBUG - https://www.allocine.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-06 05:02:21,829 - INFO - [Found] https://www.allocine.fr/
+2025-03-06 05:02:28,922 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:28,960 - DEBUG - https://www.allocine.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-06 05:02:28,965 - INFO - [Found] https://www.allocine.fr/
+2025-03-06 05:02:28,965 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,123 - DEBUG - https://www.allocine.fr:443 "GET /how-to-change-wordpress-site-url/?rest_route=/wp/v2/users/ HTTP/1.1" 404 None
+2025-03-06 05:02:29,125 - WARNING - [404 Not Found] https://www.allocine.fr//how-to-change-wordpress-site-url/?rest_route=/wp/v2/users/
+2025-03-06 05:02:29,125 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,267 - DEBUG - https://www.allocine.fr:443 "GET /account/subscribe?groupId= HTTP/1.1" 404 None
+2025-03-06 05:02:29,268 - WARNING - [404 Not Found] https://www.allocine.fr//account/subscribe?groupId=
+2025-03-06 05:02:29,269 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,446 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/login HTTP/1.1" 404 None
+2025-03-06 05:02:29,447 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/login
+2025-03-06 05:02:29,448 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,610 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/logout HTTP/1.1" 404 None
+2025-03-06 05:02:29,611 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/logout
+2025-03-06 05:02:29,612 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,751 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/register HTTP/1.1" 404 None
+2025-03-06 05:02:29,752 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/register
+2025-03-06 05:02:29,752 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:29,909 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user HTTP/1.1" 404 None
+2025-03-06 05:02:29,910 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user
+2025-03-06 05:02:29,911 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,059 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D HTTP/1.1" 404 None
+2025-03-06 05:02:30,059 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}
+2025-03-06 05:02:30,060 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,213 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/followers HTTP/1.1" 404 None
+2025-03-06 05:02:30,214 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/followers
+2025-03-06 05:02:30,215 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,363 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/following HTTP/1.1" 404 None
+2025-03-06 05:02:30,364 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/following
+2025-03-06 05:02:30,365 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,505 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/posts HTTP/1.1" 404 None
+2025-03-06 05:02:30,506 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/posts
+2025-03-06 05:02:30,507 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,631 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/liked-videos HTTP/1.1" 404 None
+2025-03-06 05:02:30,632 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/liked-videos
+2025-03-06 05:02:30,632 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,829 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/saved-videos HTTP/1.1" 404 None
+2025-03-06 05:02:30,830 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/saved-videos
+2025-03-06 05:02:30,831 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:30,980 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/notifications HTTP/1.1" 404 None
+2025-03-06 05:02:30,981 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/notifications
+2025-03-06 05:02:30,981 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,141 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/profile HTTP/1.1" 404 None
+2025-03-06 05:02:31,142 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/profile
+2025-03-06 05:02:31,143 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,329 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/comments HTTP/1.1" 404 None
+2025-03-06 05:02:31,330 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/comments
+2025-03-06 05:02:31,330 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,467 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/likes HTTP/1.1" 404 None
+2025-03-06 05:02:31,468 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/likes
+2025-03-06 05:02:31,469 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,620 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/friends HTTP/1.1" 404 None
+2025-03-06 05:02:31,621 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/friends
+2025-03-06 05:02:31,622 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,777 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/user/%7Bid%7D/media HTTP/1.1" 404 None
+2025-03-06 05:02:31,778 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/user/{id}/media
+2025-03-06 05:02:31,779 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:31,911 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos HTTP/1.1" 404 None
+2025-03-06 05:02:31,913 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos
+2025-03-06 05:02:31,914 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:32,078 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D HTTP/1.1" 404 None
+2025-03-06 05:02:32,079 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}
+2025-03-06 05:02:32,080 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:32,254 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/upload HTTP/1.1" 404 None
+2025-03-06 05:02:32,255 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/upload
+2025-03-06 05:02:32,256 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:32,457 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/comments HTTP/1.1" 404 None
+2025-03-06 05:02:32,458 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/comments
+2025-03-06 05:02:32,458 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:32,613 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/likes HTTP/1.1" 404 None
+2025-03-06 05:02:32,614 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/likes
+2025-03-06 05:02:32,614 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:32,790 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/shares HTTP/1.1" 404 None
+2025-03-06 05:02:32,791 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/shares
+2025-03-06 05:02:32,791 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:33,021 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/reports HTTP/1.1" 404 None
+2025-03-06 05:02:33,022 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/reports
+2025-03-06 05:02:33,023 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:33,188 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/download HTTP/1.1" 404 None
+2025-03-06 05:02:33,189 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/download
+2025-03-06 05:02:33,190 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:33,348 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/delete HTTP/1.1" 404 None
+2025-03-06 05:02:33,349 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/delete
+2025-03-06 05:02:33,349 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:33,502 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/videos/%7Bid%7D/edit HTTP/1.1" 404 None
+2025-03-06 05:02:33,503 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/videos/{id}/edit
+2025-03-06 05:02:33,503 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:02:33,650 - DEBUG - https://www.allocine.fr:443 "GET /api/v1/comments HTTP/1.1" 404 None
+2025-03-06 05:02:33,651 - WARNING - [404 Not Found] https://www.allocine.fr//api/v1/comments
+2025-03-06 05:02:33,651 - DEBUG - Starting new HTTPS connection (1): www.allocine.fr:443
+2025-03-06 05:03:31,468 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:32,129 - DEBUG - https://www.mission-jeune.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-06 05:03:32,161 - INFO - [Found] https://www.mission-jeune.fr/
+2025-03-06 05:03:32,162 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:32,820 - DEBUG - https://www.mission-jeune.fr:443 "GET /dup-installer-bootlog HTTP/1.1" 404 None
+2025-03-06 05:03:32,883 - WARNING - [404 Not Found] https://www.mission-jeune.fr//dup-installer-bootlog
+2025-03-06 05:03:32,883 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:33,013 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-06 05:03:33,014 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php
+2025-03-06 05:03:33,015 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:33,135 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php/wp-admin/maint/repair.php HTTP/1.1" 200 None
+2025-03-06 05:03:33,135 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php/wp-admin/maint/repair.php
+2025-03-06 05:03:33,136 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:33,486 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php HTTP/1.1" 200 None
+2025-03-06 05:03:33,487 - INFO - [Found] https://www.mission-jeune.fr//wp-login.php
+2025-03-06 05:03:33,488 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:33,671 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-06 05:03:33,672 - INFO - [Found] https://www.mission-jeune.fr////wp-admin/install.php
+2025-03-06 05:03:33,672 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:33,823 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-activate.php HTTP/1.1" 302 None
+2025-03-06 05:03:35,029 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?action=register HTTP/1.1" 302 None
+2025-03-06 05:03:35,330 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?registration=disabled HTTP/1.1" 200 None
+2025-03-06 05:03:35,331 - INFO - [Found] https://www.mission-jeune.fr//wp-activate.php
+2025-03-06 05:03:35,331 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:35,835 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/ HTTP/1.1" 302 None
+2025-03-06 05:03:36,116 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2F&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:03:36,117 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/
+2025-03-06 05:03:36,118 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:36,453 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/about.php HTTP/1.1" 302 None
+2025-03-06 05:03:36,732 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fabout.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:03:36,733 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/about.php
+2025-03-06 05:03:36,734 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:03:37,077 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 400 None
+2025-03-06 05:03:37,078 - ERROR - [400 Bad Request] https://www.mission-jeune.fr//wp-admin/admin-ajax.php
+2025-03-06 05:03:37,078 - INFO - [Found 8 WordPress paths]
+2025-03-06 05:03:37,079 - ERROR - [Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.
+2025-03-06 05:04:16,533 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:17,172 - DEBUG - https://www.mission-jeune.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-06 05:04:17,206 - INFO - [Found] https://www.mission-jeune.fr/
+2025-03-06 05:04:17,207 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:17,931 - DEBUG - https://www.mission-jeune.fr:443 "GET /dup-installer-bootlog HTTP/1.1" 404 None
+2025-03-06 05:04:17,999 - WARNING - [404 Not Found] https://www.mission-jeune.fr//dup-installer-bootlog
+2025-03-06 05:04:18,000 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:18,123 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-06 05:04:18,123 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php
+2025-03-06 05:04:18,124 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:18,248 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php/wp-admin/maint/repair.php HTTP/1.1" 200 None
+2025-03-06 05:04:18,248 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php/wp-admin/maint/repair.php
+2025-03-06 05:04:18,249 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:18,601 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php HTTP/1.1" 200 None
+2025-03-06 05:04:18,602 - INFO - [Found] https://www.mission-jeune.fr//wp-login.php
+2025-03-06 05:04:18,603 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:18,731 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-06 05:04:18,732 - INFO - [Found] https://www.mission-jeune.fr////wp-admin/install.php
+2025-03-06 05:04:18,732 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:18,868 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-activate.php HTTP/1.1" 302 None
+2025-03-06 05:04:19,174 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?action=register HTTP/1.1" 302 None
+2025-03-06 05:04:19,488 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?registration=disabled HTTP/1.1" 200 None
+2025-03-06 05:04:19,489 - INFO - [Found] https://www.mission-jeune.fr//wp-activate.php
+2025-03-06 05:04:19,490 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:19,969 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/ HTTP/1.1" 302 None
+2025-03-06 05:04:21,274 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2F&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:21,275 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/
+2025-03-06 05:04:21,276 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:21,877 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/about.php HTTP/1.1" 302 None
+2025-03-06 05:04:22,192 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fabout.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:22,193 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/about.php
+2025-03-06 05:04:22,193 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:22,597 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 400 None
+2025-03-06 05:04:22,597 - ERROR - [400 Bad Request] https://www.mission-jeune.fr//wp-admin/admin-ajax.php
+2025-03-06 05:04:22,598 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:23,440 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-db.php HTTP/1.1" 404 None
+2025-03-06 05:04:23,509 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/admin-db.php
+2025-03-06 05:04:23,510 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:23,579 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-footer.php HTTP/1.1" 200 None
+2025-03-06 05:04:23,579 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin-footer.php
+2025-03-06 05:04:23,580 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:23,648 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-functions.php HTTP/1.1" 500 None
+2025-03-06 05:04:23,649 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/admin-functions.php
+2025-03-06 05:04:23,650 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:23,721 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-header.php HTTP/1.1" 500 None
+2025-03-06 05:04:23,722 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/admin-header.php
+2025-03-06 05:04:23,722 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:25,220 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-post.php HTTP/1.1" 200 None
+2025-03-06 05:04:25,220 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin-post.php
+2025-03-06 05:04:25,221 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:25,618 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin.php HTTP/1.1" 302 None
+2025-03-06 05:04:25,932 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fadmin.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:25,933 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin.php
+2025-03-06 05:04:25,933 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:26,302 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/async-upload.php HTTP/1.1" 302 None
+2025-03-06 05:04:26,589 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fasync-upload.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:26,591 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/async-upload.php
+2025-03-06 05:04:26,591 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:27,298 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/bookmarklet.php HTTP/1.1" 404 None
+2025-03-06 05:04:27,366 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/bookmarklet.php
+2025-03-06 05:04:27,367 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,071 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/cat.js HTTP/1.1" 404 None
+2025-03-06 05:04:28,134 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/cat.js
+2025-03-06 05:04:28,134 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,196 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/ad-inserter/readme.txt?option=com_categories HTTP/1.1" 200 9560
+2025-03-06 05:04:28,212 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/ad-inserter/readme.txt?option=com_categories
+2025-03-06 05:04:28,213 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,275 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/disable-gutenberg/readme.txt?option=com_categories HTTP/1.1" 200 5793
+2025-03-06 05:04:28,276 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/disable-gutenberg/readme.txt?option=com_categories
+2025-03-06 05:04:28,276 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,340 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/elementor/readme.txt?option=com_categories HTTP/1.1" 200 11975
+2025-03-06 05:04:28,356 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/elementor/readme.txt?option=com_categories
+2025-03-06 05:04:28,357 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,423 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/maintenance/readme.txt?option=com_categories HTTP/1.1" 200 2947
+2025-03-06 05:04:28,424 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/maintenance/readme.txt?option=com_categories
+2025-03-06 05:04:28,424 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,487 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/loco-translate/readme.txt?option=com_categories HTTP/1.1" 200 7841
+2025-03-06 05:04:28,488 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/loco-translate/readme.txt?option=com_categories
+2025-03-06 05:04:28,488 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,552 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/mailchimp-for-wp/readme.txt?option=com_categories HTTP/1.1" 200 14069
+2025-03-06 05:04:28,569 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/mailchimp-for-wp/readme.txt?option=com_categories
+2025-03-06 05:04:28,569 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,631 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/one-click-demo-import/readme.txt?option=com_categories HTTP/1.1" 200 7910
+2025-03-06 05:04:28,632 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/one-click-demo-import/readme.txt?option=com_categories
+2025-03-06 05:04:28,632 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,695 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/really-simple-ssl/readme.txt?option=com_categories HTTP/1.1" 200 10460
+2025-03-06 05:04:28,711 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/really-simple-ssl/readme.txt?option=com_categories
+2025-03-06 05:04:28,711 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,774 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/svg-support/readme.txt?option=com_categories HTTP/1.1" 200 9726
+2025-03-06 05:04:28,790 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/svg-support/readme.txt?option=com_categories
+2025-03-06 05:04:28,790 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,855 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/woocommerce/readme.txt?option=com_categories HTTP/1.1" 200 6409
+2025-03-06 05:04:28,855 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/woocommerce/readme.txt?option=com_categories
+2025-03-06 05:04:28,856 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:28,920 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/wordfence/readme.txt?option=com_categories HTTP/1.1" 200 14697
+2025-03-06 05:04:28,933 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/wordfence/readme.txt?option=com_categories
+2025-03-06 05:04:28,933 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:29,002 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-content/plugins/wordpress-seo/readme.txt?option=com_categories HTTP/1.1" 200 8666
+2025-03-06 05:04:29,016 - INFO - [Found] https://www.mission-jeune.fr/wp-content/plugins/wordpress-seo/readme.txt?option=com_categories
+2025-03-06 05:04:29,017 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:29,371 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/blogger.php HTTP/1.1" 302 None
+2025-03-06 05:04:29,667 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fblogger.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:29,668 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/blogger.php
+2025-03-06 05:04:29,669 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:30,023 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/blogware.php HTTP/1.1" 302 None
+2025-03-06 05:04:30,319 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fblogware.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:30,320 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/blogware.php
+2025-03-06 05:04:30,321 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:30,681 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/dotclear.php HTTP/1.1" 302 None
+2025-03-06 05:04:31,022 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fdotclear.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:31,023 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/dotclear.php
+2025-03-06 05:04:31,024 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:31,356 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/greymatter.php HTTP/1.1" 302 None
+2025-03-06 05:04:31,642 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fgreymatter.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:31,643 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/greymatter.php
+2025-03-06 05:04:31,644 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:31,991 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/livejournal.php HTTP/1.1" 302 None
+2025-03-06 05:04:32,286 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Flivejournal.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:32,287 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/livejournal.php
+2025-03-06 05:04:32,288 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:32,631 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/mt.php HTTP/1.1" 302 None
+2025-03-06 05:04:32,914 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fmt.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:32,915 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/mt.php
+2025-03-06 05:04:32,916 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:33,253 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import.php HTTP/1.1" 302 None
+2025-03-06 05:04:33,535 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:33,536 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import.php
+2025-03-06 05:04:33,537 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:33,860 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/rss.php HTTP/1.1" 302 None
+2025-03-06 05:04:34,117 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Frss.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:34,118 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/rss.php
+2025-03-06 05:04:34,119 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:34,454 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/textpattern.php HTTP/1.1" 302 None
+2025-03-06 05:04:34,756 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Ftextpattern.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:34,757 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/textpattern.php
+2025-03-06 05:04:34,757 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,067 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/import/wordpress.php HTTP/1.1" 302 None
+2025-03-06 05:04:35,352 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fimport%2Fwordpress.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:35,353 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/import/wordpress.php
+2025-03-06 05:04:35,354 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,420 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/ HTTP/1.1" 403 199
+2025-03-06 05:04:35,420 - ERROR - [403 Forbidden] https://www.mission-jeune.fr//wp-admin/includes/
+2025-03-06 05:04:35,421 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,483 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/admin.php HTTP/1.1" 500 None
+2025-03-06 05:04:35,483 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/admin.php
+2025-03-06 05:04:35,484 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,554 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/bookmark.php HTTP/1.1" 200 None
+2025-03-06 05:04:35,554 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/bookmark.php
+2025-03-06 05:04:35,555 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,620 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-ftp.php HTTP/1.1" 200 None
+2025-03-06 05:04:35,621 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/class-ftp.php
+2025-03-06 05:04:35,621 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,684 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-ftp-pure.php HTTP/1.1" 500 None
+2025-03-06 05:04:35,684 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-ftp-pure.php
+2025-03-06 05:04:35,685 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,746 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-ftp-sockets.php HTTP/1.1" 500 None
+2025-03-06 05:04:35,746 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-ftp-sockets.php
+2025-03-06 05:04:35,747 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,810 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-pclzip.php HTTP/1.1" 200 None
+2025-03-06 05:04:35,811 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/class-pclzip.php
+2025-03-06 05:04:35,811 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,874 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-filesystem-base.php HTTP/1.1" 200 None
+2025-03-06 05:04:35,874 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/class-wp-filesystem-base.php
+2025-03-06 05:04:35,875 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:35,936 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-filesystem-direct.php HTTP/1.1" 500 None
+2025-03-06 05:04:35,937 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-wp-filesystem-direct.php
+2025-03-06 05:04:35,937 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,001 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ftpext.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,001 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-wp-filesystem-ftpext.php
+2025-03-06 05:04:36,002 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,066 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ftpsockets.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,066 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-wp-filesystem-ftpsockets.php
+2025-03-06 05:04:36,067 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,130 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-filesystem-ssh2.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,131 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-wp-filesystem-ssh2.php
+2025-03-06 05:04:36,131 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,195 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-importer.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,196 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/class-wp-importer.php
+2025-03-06 05:04:36,196 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,259 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/class-wp-upgrader.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,260 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/class-wp-upgrader.php
+2025-03-06 05:04:36,260 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,322 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/comment.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,323 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/comment.php
+2025-03-06 05:04:36,323 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,386 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/continents-cities.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,386 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/continents-cities.php
+2025-03-06 05:04:36,387 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,451 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/dashboard.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,452 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/dashboard.php
+2025-03-06 05:04:36,452 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,514 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/deprecated.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,515 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/deprecated.php
+2025-03-06 05:04:36,515 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,580 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/export.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,581 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/export.php
+2025-03-06 05:04:36,581 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,643 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/file.php HTTP/1.1" 500 None
+2025-03-06 05:04:36,643 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/file.php
+2025-03-06 05:04:36,644 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,711 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/image-edit.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,711 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/image-edit.php
+2025-03-06 05:04:36,712 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,775 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/image.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,775 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/image.php
+2025-03-06 05:04:36,776 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:36,837 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/import.php HTTP/1.1" 200 None
+2025-03-06 05:04:36,838 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/import.php
+2025-03-06 05:04:36,838 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:38,800 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/manifest.php HTTP/1.1" 404 None
+2025-03-06 05:04:38,863 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/includes/manifest.php
+2025-03-06 05:04:38,864 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:38,930 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/media.php HTTP/1.1" 200 None
+2025-03-06 05:04:38,930 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/media.php
+2025-03-06 05:04:38,931 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:38,994 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/meta-boxes.php HTTP/1.1" 200 None
+2025-03-06 05:04:38,995 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/meta-boxes.php
+2025-03-06 05:04:38,995 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,057 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/misc.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,058 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/misc.php
+2025-03-06 05:04:39,058 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,125 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/ms-deprecated.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,126 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/ms-deprecated.php
+2025-03-06 05:04:39,126 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,197 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/ms.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,197 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/ms.php
+2025-03-06 05:04:39,198 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,263 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/nav-menu.php HTTP/1.1" 500 None
+2025-03-06 05:04:39,263 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/nav-menu.php
+2025-03-06 05:04:39,264 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,329 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/plugin-install.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,330 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/plugin-install.php
+2025-03-06 05:04:39,330 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,395 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/plugin.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,396 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/plugin.php
+2025-03-06 05:04:39,396 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,457 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/post.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,458 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/post.php
+2025-03-06 05:04:39,458 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,520 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/schema.php HTTP/1.1" 500 None
+2025-03-06 05:04:39,520 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/schema.php
+2025-03-06 05:04:39,521 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,583 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/taxonomy.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,584 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/taxonomy.php
+2025-03-06 05:04:39,584 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,647 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/template.php HTTP/1.1" 500 None
+2025-03-06 05:04:39,648 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/template.php
+2025-03-06 05:04:39,648 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,711 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/theme-install.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,712 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/theme-install.php
+2025-03-06 05:04:39,712 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,773 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/theme.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,773 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/theme.php
+2025-03-06 05:04:39,774 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,838 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/update-core.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,838 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/update-core.php
+2025-03-06 05:04:39,839 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,903 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/update.php HTTP/1.1" 200 None
+2025-03-06 05:04:39,903 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/update.php
+2025-03-06 05:04:39,904 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:39,968 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/upgrade.php HTTP/1.1" 500 None
+2025-03-06 05:04:39,969 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/includes/upgrade.php
+2025-03-06 05:04:39,969 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:40,031 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/user.php HTTP/1.1" 200 None
+2025-03-06 05:04:40,032 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/user.php
+2025-03-06 05:04:40,032 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:40,095 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/includes/widgets.php HTTP/1.1" 200 None
+2025-03-06 05:04:40,096 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/includes/widgets.php
+2025-03-06 05:04:40,096 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:40,858 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/index-extra.php HTTP/1.1" 404 None
+2025-03-06 05:04:40,921 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/index-extra.php
+2025-03-06 05:04:40,921 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:41,378 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/index.php HTTP/1.1" 302 None
+2025-03-06 05:04:41,692 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Findex.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:41,693 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/index.php
+2025-03-06 05:04:41,694 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:42,032 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link-add.php HTTP/1.1" 302 None
+2025-03-06 05:04:42,339 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Flink-add.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:42,340 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/link-add.php
+2025-03-06 05:04:42,341 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:43,052 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link-category.php HTTP/1.1" 404 None
+2025-03-06 05:04:43,115 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/link-category.php
+2025-03-06 05:04:43,116 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:43,755 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link-import.php HTTP/1.1" 404 None
+2025-03-06 05:04:43,801 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/link-import.php
+2025-03-06 05:04:43,802 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:44,155 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link-manager.php HTTP/1.1" 302 None
+2025-03-06 05:04:44,441 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Flink-manager.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:44,441 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/link-manager.php
+2025-03-06 05:04:44,442 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:45,545 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link-parse-opml.php HTTP/1.1" 200 None
+2025-03-06 05:04:45,546 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/link-parse-opml.php
+2025-03-06 05:04:45,546 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:45,908 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/link.php HTTP/1.1" 302 None
+2025-03-06 05:04:46,193 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Flink.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:46,194 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/link.php
+2025-03-06 05:04:46,194 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:46,259 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/load-scripts.php HTTP/1.1" 200 None
+2025-03-06 05:04:46,259 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/load-scripts.php
+2025-03-06 05:04:46,260 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:46,323 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/load-styles.php HTTP/1.1" 200 None
+2025-03-06 05:04:46,323 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/load-styles.php
+2025-03-06 05:04:46,324 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:46,386 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/maint/ HTTP/1.1" 403 199
+2025-03-06 05:04:46,387 - ERROR - [403 Forbidden] https://www.mission-jeune.fr//wp-admin/maint/
+2025-03-06 05:04:46,387 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:46,997 - DEBUG - https://www.mission-jeune.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-06 05:04:47,028 - INFO - [Found] https://www.mission-jeune.fr/
+2025-03-06 05:04:47,029 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:47,166 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-activate.php HTTP/1.1" 302 None
+2025-03-06 05:04:47,447 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?action=register HTTP/1.1" 302 None
+2025-03-06 05:04:47,725 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?registration=disabled HTTP/1.1" 200 None
+2025-03-06 05:04:47,726 - INFO - [Found] https://www.mission-jeune.fr/wp-activate.php
+2025-03-06 05:04:47,727 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:47,791 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin HTTP/1.1" 301 250
+2025-03-06 05:04:48,095 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/ HTTP/1.1" 302 None
+2025-03-06 05:04:48,362 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2F&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:48,363 - INFO - [Found] https://www.mission-jeune.fr/wp-admin
+2025-03-06 05:04:48,364 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:48,680 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/about.php HTTP/1.1" 302 None
+2025-03-06 05:04:48,984 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fabout.php&reauth=1 HTTP/1.1" 200 None
+2025-03-06 05:04:48,985 - INFO - [Found] https://www.mission-jeune.fr/wp-admin/about.php
+2025-03-06 05:04:48,986 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-06 05:04:49,327 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 400 None
+2025-03-06 05:04:49,328 - ERROR - [400 Bad Request] https://www.mission-jeune.fr/wp-admin/admin-ajax.php
+2025-03-06 05:04:49,328 - INFO - [Found 71 WordPress paths]
+2025-03-06 05:04:49,330 - ERROR - [Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.
+2025-03-07 18:30:17,789 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:18,479 - DEBUG - https://www.mission-jeune.fr:443 "GET / HTTP/1.1" 200 None
+2025-03-07 18:30:18,502 - INFO - [Found] https://www.mission-jeune.fr/
+2025-03-07 18:30:18,503 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:19,843 - DEBUG - https://www.mission-jeune.fr:443 "GET /dup-installer-bootlog HTTP/1.1" 404 None
+2025-03-07 18:30:19,912 - WARNING - [404 Not Found] https://www.mission-jeune.fr//dup-installer-bootlog
+2025-03-07 18:30:19,913 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:20,112 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-07 18:30:20,113 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php
+2025-03-07 18:30:20,113 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:20,247 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php/wp-admin/maint/repair.php HTTP/1.1" 200 None
+2025-03-07 18:30:20,247 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/install.php/wp-admin/maint/repair.php
+2025-03-07 18:30:20,248 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:21,066 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php HTTP/1.1" 200 None
+2025-03-07 18:30:21,067 - INFO - [Found] https://www.mission-jeune.fr//wp-login.php
+2025-03-07 18:30:21,068 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:21,207 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/install.php HTTP/1.1" 200 None
+2025-03-07 18:30:21,208 - INFO - [Found] https://www.mission-jeune.fr////wp-admin/install.php
+2025-03-07 18:30:21,208 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:21,332 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-activate.php HTTP/1.1" 302 None
+2025-03-07 18:30:21,622 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?action=register HTTP/1.1" 302 None
+2025-03-07 18:30:21,898 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?registration=disabled HTTP/1.1" 200 None
+2025-03-07 18:30:21,899 - INFO - [Found] https://www.mission-jeune.fr//wp-activate.php
+2025-03-07 18:30:21,899 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:22,406 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/ HTTP/1.1" 302 None
+2025-03-07 18:30:22,717 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2F&reauth=1 HTTP/1.1" 200 None
+2025-03-07 18:30:22,718 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/
+2025-03-07 18:30:22,718 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:23,120 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/about.php HTTP/1.1" 302 None
+2025-03-07 18:30:23,433 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fabout.php&reauth=1 HTTP/1.1" 200 None
+2025-03-07 18:30:23,434 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/about.php
+2025-03-07 18:30:23,434 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:23,819 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-ajax.php HTTP/1.1" 400 None
+2025-03-07 18:30:23,820 - ERROR - [400 Bad Request] https://www.mission-jeune.fr//wp-admin/admin-ajax.php
+2025-03-07 18:30:23,820 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:24,490 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-db.php HTTP/1.1" 404 None
+2025-03-07 18:30:24,560 - WARNING - [404 Not Found] https://www.mission-jeune.fr//wp-admin/admin-db.php
+2025-03-07 18:30:24,561 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:24,630 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-footer.php HTTP/1.1" 200 None
+2025-03-07 18:30:24,631 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin-footer.php
+2025-03-07 18:30:24,631 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:24,700 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-functions.php HTTP/1.1" 500 None
+2025-03-07 18:30:24,701 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/admin-functions.php
+2025-03-07 18:30:24,701 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:24,768 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-header.php HTTP/1.1" 500 None
+2025-03-07 18:30:24,769 - ERROR - [500 Internal Server Error] https://www.mission-jeune.fr//wp-admin/admin-header.php
+2025-03-07 18:30:24,769 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:25,199 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin-post.php HTTP/1.1" 200 None
+2025-03-07 18:30:25,200 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin-post.php
+2025-03-07 18:30:25,200 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:25,627 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/admin.php HTTP/1.1" 302 None
+2025-03-07 18:30:25,901 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fadmin.php&reauth=1 HTTP/1.1" 200 None
+2025-03-07 18:30:25,902 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/admin.php
+2025-03-07 18:30:25,903 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
+2025-03-07 18:30:26,305 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-admin/async-upload.php HTTP/1.1" 302 None
+2025-03-07 18:30:26,600 - DEBUG - https://www.mission-jeune.fr:443 "GET /wp-login.php?redirect_to=https%3A%2F%2Fwww.mission-jeune.fr%2Fwp-admin%2Fasync-upload.php&reauth=1 HTTP/1.1" 200 None
+2025-03-07 18:30:26,601 - INFO - [Found] https://www.mission-jeune.fr//wp-admin/async-upload.php
+2025-03-07 18:30:26,602 - DEBUG - Starting new HTTPS connection (1): www.mission-jeune.fr:443
