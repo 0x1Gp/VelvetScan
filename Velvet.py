@@ -1,15 +1,14 @@
+
+
 import argparse
+from tqdm import tqdm
 import time
 import requests
 import os
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
-
-
-
-
-
+import sys
 
 
 
@@ -205,50 +204,6 @@ def test_file_combinations(site, file_type, delay, num_pages, max_threads=10):
     ### print(f"\nstart search: {RED}{site}{x}...\n")
     found_urls = []
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     for i, file in enumerate(combinations):
         if i >= num_pages:  
             break
@@ -294,10 +249,6 @@ def test_file_combinations(site, file_type, delay, num_pages, max_threads=10):
         logging.warning(f"[No files found for type '{file_type}']")
 
 
-
-
-
-
 # Fonction pour tester les fichiers WordPress
 def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     if not os.path.isfile(wp_file):
@@ -310,48 +261,63 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     paths = [path.strip() for path in paths]
 
-
-
-#####--- print(f"\nstart search: {RED}{site}{x}...\n") a enlever des comme si je veux fiare apparaitre le apt scan :  --- 
     found_urls = []
-  
+    errors = 0  # Compteur d'erreurs
+
+    # Créer la barre de progression au début, une seule fois
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    # Initialiser la barre avec un postfix pour afficher les statistiques
+    progress_bar.set_postfix(found=0, errors=0)
+
+    # Boucle de traitement des URLs
     for i, path in enumerate(paths):
-        if i >= num_pages:  
+        if i >= num_pages:
             break
         url = f"{site}/{path}"
         try:
             response = requests.get(url)
             if response.status_code == 200:
-                print(f"{g}[Found]{x} {url}")
-                logging.info(f"[Found] {url}")
                 found_urls.append(url)
+                # Mise à jour du nombre de found et errors dans le postfix
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"{g}[Found]{x} {url}")  # Affiche les URL trouvées
             elif response.status_code == 403:
-                print(f"{P}[403 Forbidden]{x} {url}")
-                logging.error(f"[403 Forbidden] {url}")
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"{P}[403 Forbidden]{x} {url}")  # Affiche les 403
             elif response.status_code == 404:
-                print(f"{R}[404 Not Found]{x} {url}")
-                logging.warning(f"[404 Not Found] {url}")
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"{R}[404 Not Found]{x} {url}")  # Affiche les 404
             elif response.status_code == 400:
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
                 print(f"{D}[400 Bad Request]{x} {url}")
-                logging.error(f"[400 Bad Request] {url}")
-            elif response.status_code == 405:
-                print(f"{y}[405 Method Not Allowed]{x} {url}")
-                logging.error(f"[405 Method Not Allowed] {url}")
             elif response.status_code == 500:
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
                 print(f"{M}[500 Internal Server Error]{x} {url}")
-                logging.error(f"[500 Internal Server Error] {url}")
-            elif response.status_code == 504:
-                print(f"{O}[504 Gateway Timeout]{x} {url}")
-                logging.error(f"[504 Gateway Timeout] {url}")
             else:
-                print(f"[{response.status_code}] {url}")
-                logging.info(f"[{response.status_code}] {url}")
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"[{response.status_code}] {url}")  # Affiche les autres statuts
         except requests.exceptions.RequestException as e:
-            print(f"{R}[Error]{x} {url} - {e}")
+            errors += 1
+            progress_bar.set_postfix(found=len(found_urls), errors=errors)
+            print(f"{R}[Error]{x} {url} - {e}")  # Affiche l'erreur
             logging.error(f"[Error] {url} - {e}")
-        
+
+        # Mise à jour de la barre après chaque requête (sans la recréer)
+        progress_bar.update(1)  # Mise à jour après chaque requête
+        sys.stdout.flush()  # Forcer l'affichage immédiat
+
         time.sleep(delay)
 
+    # Fermer proprement la barre de progression après la boucle
+    progress_bar.close()
+
+    # Résultats finaux
     if found_urls:
         print(f"\n{g}[Found {len(found_urls)} WordPress paths]{x}")
         logging.info(f"[Found {len(found_urls)} WordPress paths]")
@@ -367,8 +333,9 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
 
 
+
 # Fonction pour tester les fichiers Joomla
-def test_joomla_files(site, joomla_file, delay, number_of_pages , ):
+def test_joomla_files(site, joomla_file, delay,number_of_pages ):
     if not os.path.exists(joomla_file):
         print(f"{RED}[Error] Le fichier Joomla spécifié n'existe pas !{RESET}")
         return
@@ -380,7 +347,16 @@ def test_joomla_files(site, joomla_file, delay, number_of_pages , ):
     
     ### print(f"\n\n") mettre le lien facultative 
     found_urls = []
+    # Créer la barre de progression au début, une seule fois
     
+    
+    # Créer la barre de progression au début, une seule fois
+    progress_bar = tqdm(total=min(len(paths),number_of_pages ), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    # Initialiser la barre avec un postfix pour afficher les statistiques
+    progress_bar.set_postfix(found=0, errors=0)
+   
+
     for i, path in enumerate(paths):
         if i >= number_of_pages:  
             break
@@ -409,11 +385,17 @@ def test_joomla_files(site, joomla_file, delay, number_of_pages , ):
         except requests.exceptions.RequestException as e:
             print(f"{RED}[Error]{RESET} {url} - {e}")
         
+
+        # Mise à jour de la barre après chaque requête (sans la recréer)
+        progress_bar.update(1)  # Mise à jour après chaque requête
+        sys.stdout.flush()  # Forcer l'affichage immédiat
+
         time.sleep(delay)
     
 
  
-  
+        # Fermer proprement la barre de progression après la boucle
+    progress_bar.close()
     
     
     
@@ -503,6 +485,11 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
     paths = [path.strip() for path in paths]
 
    
+       # Créer la barre de progression au début, une seule fois
+    progress_bar = tqdm(total=min(len(paths),num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    # Initialiser la barre avec un postfix pour afficher les statistiques
+    progress_bar.set_postfix(found=0, errors=0)
    
    
    
@@ -557,15 +544,23 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
         except requests.exceptions.RequestException as e:
             print(f"{R}[Error]{x} {url} - {e}")
             logging.error(f"[Error] {url} - {e}")
-        
+        # Mise à jour de la barre après chaque requête (sans la recréer)
+        progress_bar.update(1)  # Mise à jour après chaque requête
+        sys.stdout.flush()  # Forcer l'affichage immédiat
         time.sleep(delay)
-
+    progress_bar.close()
     if found_urls:
         print(f"\n{g}[Found {len(found_urls)} admin paths]{x}")
         logging.info(f"[Found {len(found_urls)} admin paths]")
     else:
         print(f"\n{R}[No admin paths found]{x}")
         logging.warning(f"[No admin paths found]")
+
+
+
+
+
+
 
 # Fonction pour tester les chemins d'API
 def test_api_combinations(site, api_file, delay, num_pages):
@@ -585,7 +580,11 @@ def test_api_combinations(site, api_file, delay, num_pages):
 
    
    
-   
+    # Créer la barre de progression au début, une seule fois
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    # Initialiser la barre avec un postfix pour afficher les statistiques
+    progress_bar.set_postfix(found=0, errors=0)
    
    
    
@@ -630,7 +629,14 @@ def test_api_combinations(site, api_file, delay, num_pages):
             logging.error(f"[Error] {url} - {e}")
         
         time.sleep(delay)
+        # Mise à jour de la barre après chaque requête (sans la recréer)
+        progress_bar.update(1)  # Mise à jour après chaque requête
+        sys.stdout.flush()  # Forcer l'affichage immédiat
 
+        time.sleep(delay)
+
+    # Fermer proprement la barre de progression après la boucle
+    progress_bar.close()
     if found_urls:
         print(f"\n{g}[Found {len(found_urls)} API paths]{x}")
         logging.info(f"[Found {len(found_urls)} API paths]")

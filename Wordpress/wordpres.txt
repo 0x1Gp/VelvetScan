@@ -1,4 +1,8 @@
-
+/dashboard
+wp-maintenance-mode
+wp-includes/Text/Diff/Engine/version.php
+wp-includes/Text/Diff/Engine/functions.php
+wp-includes/Text/Diff/Engine/native.php
 /dup-installer-bootlog
 /wp-admin/install.php
 /wp-admin/install.php/wp-admin/maint/repair.php
@@ -17,6 +21,7 @@
 /wp-admin/async-upload.php
 /wp-admin/bookmarklet.php
 /wp-admin/cat.js
+wp-config.zip
 wp-content/plugins/ad-inserter/readme.txt?option=com_categories
 wp-content/plugins/disable-gutenberg/readme.txt?option=com_categories
 wp-content/plugins/elementor/readme.txt?option=com_categories
