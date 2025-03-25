@@ -1,5 +1,3 @@
-
-
 import argparse
 from tqdm import tqdm
 import time
@@ -8,6 +6,8 @@ import os
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
+import psutil  # Pour obtenir les informations sur la mémoire
+import datetime  # Pour afficher l'heure à la fin du scan
 import sys
 
 
@@ -249,10 +249,16 @@ def test_file_combinations(site, file_type, delay, num_pages, max_threads=10):
         logging.warning(f"[No files found for type '{file_type}']")
 
 
+
+# Constantes pour la mise en forme des couleurs
+R, G, P, D, M, X = '\033[31m', '\033[32m', '\033[35m', '\033[36m', '\033[33m', '\033[0m'
+
+# Fonction pour tester les fichiers WordPress
 # Fonction pour tester les fichiers WordPress
 def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
+    wp_version = check_wordpress_version(site)  # Récupérer la version de WP mais ne pas l'afficher ici
     if not os.path.isfile(wp_file):
-        print(f"{R}Le fichier WordPress {wp_file} n'existe pas!{x}")
+        print(f"{R}Le fichier WordPress {wp_file} n'existe pas!{X}")
         logging.error(f"Le fichier WordPress {wp_file} n'existe pas!")
         return
 
@@ -263,12 +269,17 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     found_urls = []
     errors = 0  # Compteur d'erreurs
+    requests_done = 0  # Compteur de requêtes
+    data_sent = 0  # Taille des données envoyées (en octets)
+    data_received = 0  # Taille des données reçues (en octets)
 
     # Créer la barre de progression au début, une seule fois
     progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
 
     # Initialiser la barre avec un postfix pour afficher les statistiques
-    progress_bar.set_postfix(found=0, errors=0)
+    progress_bar.set_postfix(found=0, errors=0, version="N/A")
+
+    start_time = time.time()  # Pour mesurer le temps écoulé
 
     # Boucle de traitement des URLs
     for i, path in enumerate(paths):
@@ -277,35 +288,24 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
         url = f"{site}/{path}"
         try:
             response = requests.get(url)
+            requests_done += 1
+            data_sent += len(response.request.body or b'')  # Calcul des données envoyées
+            data_received += len(response.content)  # Calcul des données reçues
             if response.status_code == 200:
                 found_urls.append(url)
-                # Mise à jour du nombre de found et errors dans le postfix
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
-                print(f"{g}[Found]{x} {url}")  # Affiche les URL trouvées
-            elif response.status_code == 403:
-                errors += 1
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
-                print(f"{P}[403 Forbidden]{x} {url}")  # Affiche les 403
-            elif response.status_code == 404:
-                errors += 1
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
-                print(f"{R}[404 Not Found]{x} {url}")  # Affiche les 404
-            elif response.status_code == 400:
-                errors += 1
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
-                print(f"{D}[400 Bad Request]{x} {url}")
-            elif response.status_code == 500:
-                errors += 1
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
-                print(f"{M}[500 Internal Server Error]{x} {url}")
+                progress_bar.bar_format = f"{G}{{l_bar}}{{bar}}{{r_bar}}{X}"  # Barre verte
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                print(f"{G}[Found]{X} {url}")  # Affiche les URL trouvées
             else:
                 errors += 1
-                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                progress_bar.bar_format = f"{R}{{l_bar}}{{bar}}{{r_bar}}{X}"  # Barre rouge pour erreurs
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
                 print(f"[{response.status_code}] {url}")  # Affiche les autres statuts
         except requests.exceptions.RequestException as e:
             errors += 1
-            progress_bar.set_postfix(found=len(found_urls), errors=errors)
-            print(f"{R}[Error]{x} {url} - {e}")  # Affiche l'erreur
+            progress_bar.bar_format = f"{R}{{l_bar}}{{bar}}{{r_bar}}{X}"  # Barre rouge pour erreurs
+            progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+            print(f"{R}[Error]{X} {url} - {e}")  # Affiche l'erreur
             logging.error(f"[Error] {url} - {e}")
 
         # Mise à jour de la barre après chaque requête (sans la recréer)
@@ -316,14 +316,80 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Fermer proprement la barre de progression après la boucle
     progress_bar.close()
+    
+    # Temps écoulé
+    elapsed_time = time.time() - start_time
 
     # Résultats finaux
     if found_urls:
-        print(f"\n{g}[Found {len(found_urls)} WordPress paths]{x}")
-        logging.info(f"[Found {len(found_urls)} WordPress paths]")
+        print(f"\n{G}[+] Found {len(found_urls)} WordPress paths{X}")
+        logging.info(f"[+] Found {len(found_urls)} WordPress paths")
     else:
-        print(f"\n{R}[No WordPress paths found]{x}")
-        logging.warning(f"[No WordPress paths found]")
+        print(f"\n{R}[+] No WordPress paths found{X}")
+        logging.warning(f"[+] No WordPress paths found")
+
+    # Afficher la version à la fin du scan
+    if wp_version != "N/A":
+        print(f"\n{G}[+] WordPress Version Found{X} {wp_version}")
+    else:
+        print(f"\n{R}[+] WordPress Version Not Found{X}")
+
+    # Afficher les statistiques finales
+    print("\n" + f"{G}[+] Finished: {D}" + datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y") + f"{X}")
+    
+    print(f"{G}[+] Requests Done: {D}{requests_done}{X}")
+    print(f"{G}[+] Cached Requests: {D}{requests_done - len(found_urls)}{X}")  # Estimation des requêtes mises en cache
+    print(f"{G}[+] Data Sent: {D}{data_sent / 1024:.3f} KB{X}")
+    print(f"{G}[+] Data Received: {D}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{G}[+] Memory used: {D}{psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB{X}")
+    print(f"{G}[+] Elapsed time: {D}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
+
+# Fonction pour vérifier la version de WordPress
+def check_wordpress_version(site):
+    try:
+        response = requests.get(site)
+        if response.status_code == 200:
+            # Recherche dans le meta tag "generator"
+            if 'generator' in response.text.lower():
+                start_index = response.text.lower().find('generator')
+                end_index = response.text.find('"', start_index)
+                version_tag = response.text[start_index:end_index]
+                if 'content="' in version_tag:
+                    version = version_tag.split('content="')[1]
+                    # Ne pas afficher ici, renvoyer la version
+                    return version
+
+            # Recherche de la version dans l'URL des fichiers
+            for url in ['wp-includes/js/wp-emoji-release.min.js', 'wp-content/themes/twentytwenty/style.css']:
+                if url in response.text:
+                    # Extraire la version à partir des paramètres de requête comme "?ver=5.8"
+                    start_index = response.text.find(url)
+                    if '?ver=' in response.text[start_index:]:
+                        version = response.text.split('?ver=')[1].split()[0]
+                        # Ne pas afficher ici, renvoyer la version
+                        return version
+
+            # Recherche dans les commentaires HTML
+            if '<!-- WordPress version' in response.text:
+                version_tag = response.text.split('<!-- WordPress version')[1].split('-->')[0]
+                version = version_tag.split()[1]
+                # Ne pas afficher ici, renvoyer la version
+                return version
+
+            # Recherche dans les headers HTTP
+            if 'X-Powered-By' in response.headers:
+                header = response.headers['X-Powered-By']
+                if 'WordPress' in header:
+                    version = header.split('WordPress/')[1]
+                    # Ne pas afficher ici, renvoyer la version
+                    return version
+
+            return "N/A"
+
+        else:
+            return "N/A"
+    except requests.exceptions.RequestException as e:
+        return "N/A"
 
 
 
@@ -332,6 +398,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
 
 
+########################################
 
 
 # Fonction pour tester les fichiers Joomla
@@ -413,7 +480,7 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 
 
-# Fonction pour tester les fichiers .htaccess ####traveaux   
+# Fonction pour tester les fichiers .htaccess ####traveaux    a finir 
 def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
     if not os.path.exists(htaccess_file):
 
@@ -427,6 +494,16 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
     print(f"\nDébut de la recherche des fichiers .htaccess sur {site}...\n")
     found_urls = []
     
+
+    # Créer la barre de progression au début, une seule fois
+    progress_bar = tqdm(total=min(len(paths),number_of_pages ), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    # Initialiser la barre avec un postfix pour afficher les statistiques
+    progress_bar.set_postfix(found=0, errors=0)
+
+
+
+
     for i, path in enumerate(paths):
         if i >= number_of_pages:  # Limite le nombre de pages à tester
             break
@@ -454,8 +531,20 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
         except requests.exceptions.RequestException as e:
             print(f"{RED}[Error]{RESET} {url} - {e}")
         
+       
+
+    
+        # Mise à jour de la barre après chaque requête (sans la recréer)
+        progress_bar.update(1)  # Mise à jour après chaque requête
+        sys.stdout.flush()  # Forcer l'affichage immédiat
+
         time.sleep(delay)
     
+
+      # Fermer proprement la barre de progression après la boucle
+    progress_bar.close()
+
+
     if found_urls:
         print(f"{GREEN}[Found {len(found_urls)} htaccess paths]{RESET}")
     else:
@@ -654,7 +743,7 @@ def main():
     parser.add_argument("-api", "--api_file", required=False, help="Chemin vers le fichier de chemins API")
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
-   
+    parser.add_argument("-v", "--version", action="store_true", help="Vérifier la version de WordPress")
     parser.add_argument("-t", "--time", type=int, required=True, help="Temps entre les requêtes")
     parser.add_argument("-n", "--number_of_pages", type=int, default=5, help="Nombre maximum de pages à tester (par défaut: 5)") 
     parser.add_argument("-thread", "--threads", type=int, default=10, help="Nombre de threads pour l'exécution en multithreading (par défaut: 10)")
@@ -698,14 +787,14 @@ def main():
 
     
        
-####traveaux 
-    htaccess_folder = args.htaccess_file
+####traveaux a  finir HT acess Fuzzer 
+   #### htaccess_folder = args.htaccess_file
 
      # Vérification si l'argument htaccess est spécifié
-    if htaccess_folder:
-        test_htaccess_files(site, htaccess_folder, delay, num_pages)
-    else:
-        print(f"{RED}[Error] Vous devez spécifier un dossier contenant le fichier htacces.txt.{RESET}")
+    ###if htaccess_folder:
+      ###  test_htaccess_files(site, htaccess_folder, delay, num_pages)
+    ###else:
+       ### print(f"{RED}[Error] Vous devez spécifier un dossier contenant le fichier htacces.txt.{RESET}")
 
 
 
@@ -717,14 +806,17 @@ def main():
     elif args.wordpress_file:
         wp_file = args.wordpress_file
         test_wordpress_files(site, wp_file, delay, num_pages)
-     
+    else:
+        print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
+        logging.error(f"[Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
+
     ##Vérification de l'option -joomla et des autres paramètres
     if args.joomla_file:
         if not args.joomla_file:
             print(f"{RED}[Error] Vous devez spécifier un fichier Joomla pour tester.{RESET}")
             return
         test_joomla_files(site, args.joomla_file, delay, num_pages)
-     
+    
 
 
      # Vérification si le fichier .htaccess existe
@@ -738,9 +830,9 @@ def main():
     elif args.file_type:
         file_type = args.file_type
         test_file_combinations(site, file_type, delay, num_pages)
-    else:
-        print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
-        logging.error(f"[Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
+    ####else:
+        ###print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
+        ###logging.error(f"[Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
 
 
 
