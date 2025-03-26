@@ -52,7 +52,7 @@ GREEN = '\033[0m'          # Réinitialisation des couleurs
 
 # Fonction pour afficher un texte avec fond noir et texte rouge
 def print_footer():
-    print(f"{B_BLACK}{GREEN} By @0x1Gp {RESET}")
+    print(f"{B_BLACK}{GREEN} By @0x1Gp 🍉{RESET}")
 
 
 
@@ -387,26 +387,26 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Résultats finaux
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} WordPress paths]{X}")
-        logging.info(f"[Found {len(found_urls)} WordPress paths]")
+        print(f"\n{G}[+]Found {len(found_urls)} WordPress paths{X}")
+        logging.info(f"[+]Found {len(found_urls)} WordPress paths")
     else:
-        print(f"\n{R}[No WordPress paths found]{X}")
-        logging.warning(f"[No WordPress paths found]")
+        print(f"\n{R}[+] No WordPress paths found{X}")
+        logging.warning(f"[+] No WordPress paths found")
 
     # Afficher la version à la fin du scan
     if wp_version != "N/A":
-        print(f"\n{G}[WordPress Version Found at the End]{X} {wp_version}")
+        print(f"\n{G}[+]WordPress Version Found[+]{X} {wp_version}")
     else:
         print(f"\n{R}[WordPress Version Not Found at the End]{X}")
 
     # Afficher les statistiques finales
-    print(f"{G}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
-    print(f"{G}[+] Requests Done: {requests_done}")
-    print(f"{G}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
+    print(f"{B}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
+    print(f"{B}[+] Requests Done: {requests_done}")
+    print(f"{B}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
     ######print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{G}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{B}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{B}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{B}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
 
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers
@@ -670,7 +670,11 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 
  """
+############################################Panel agressive Detections
 
+
+
+#######################################################################
 
 
 ############################################ JS Detection 
