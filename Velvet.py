@@ -288,7 +288,8 @@ files_to_check = [
     "wp-includes/js/wp-embed.min.js"
 ]################################"""
 # Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m'
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
 
 # Fonction pour tester les fichiers WordPress
 def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
@@ -400,13 +401,13 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
         print(f"\n{R}[WordPress Version Not Found at the End]{X}")
 
     # Afficher les statistiques finales
-    print(f"{B}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
-    print(f"{B}[+] Requests Done: {requests_done}")
-    print(f"{B}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
+    print(f"{C}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
     ######print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
-    print(f"{B}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{B}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{B}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
 
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers
@@ -854,7 +855,107 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
         print(f"{RED}[No htaccess paths found]{RESET}")
 
 
+#######################################################Panel Agressive detections
 
+# Constantes pour la mise en forme des couleurs
+R, G, P, B, M, Y, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m'
+
+# Fonction pour tester les panels d'administration
+def test_panel_files(site, panel_file, delay, num_pages):
+    if not os.path.exists(panel_file):
+        print(f"{R}[Error] Le fichier Panel spécifié n'existe pas !{X}")
+        return
+    
+    with open(panel_file, 'r', encoding='utf-8', errors='ignore') as file:
+        paths = [path.strip() for path in file.readlines()]
+    
+    found_urls = []
+    errors = 0  # Compteur d'erreurs
+    requests_done = 0  # Compteur de requêtes
+    data_sent = 0  # Taille des données envoyées (en octets)
+    data_received = 0  # Taille des données reçues (en octets)
+
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning Panels", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+    progress_bar.set_postfix(found=0, errors=0)
+    start_time = time.time()
+
+    for i, path in enumerate(paths):
+        if i >= num_pages:
+            break
+        url = f"{site}/{path}"
+        try:
+            response = requests.get(url)
+            requests_done += 1
+            data_sent += len(response.request.body or b'')
+            data_received += len(response.content)
+            
+            if response.status_code == 200:
+                found_urls.append(url)
+                progress_bar.bar_format = f"{G}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{G}[+]✅ [Found] ✅ [+]{X} {url}")
+            elif response.status_code == 403:
+                errors += 1
+                progress_bar.bar_format = f"{P}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{P}[+][403 Forbidden][+]{X} {url}")
+            elif response.status_code == 404:
+                errors += 1
+                progress_bar.bar_format = f"{R}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{R}[+] ❌ [404 Not Found] ❌ [+]{X} {url}")
+            elif response.status_code == 400:
+                errors += 1
+                progress_bar.bar_format = f"{B}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{B}[+][400 Bad Request][+]{X} {url}")
+            elif response.status_code == 405:
+                errors += 1
+                progress_bar.bar_format = f"{Y}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{Y}[+][405 Method Not Allowed][+]{X} {url}")
+            elif response.status_code == 500:
+                errors += 1
+                progress_bar.bar_format = f"{M}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{M}[+][500 Internal Server Error][+]{X} {url}")
+            elif response.status_code == 504:
+                errors += 1
+                progress_bar.bar_format = f"{M}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"{M}[+][504 Gateway Timeout][+]{X} {url}")
+            else:
+                errors += 1
+                progress_bar.bar_format = f"{R}{{l_bar}}{{bar}}{{r_bar}}{X}"
+                print(f"[{response.status_code}] {url}")
+        except requests.exceptions.RequestException as e:
+            errors += 1
+            progress_bar.bar_format = f"{R}{{l_bar}}{{bar}}{{r_bar}}{X}"
+            print(f"{R}[Error]{X} {url} - {e}")
+        
+        progress_bar.update(1)
+        sys.stdout.flush()
+        time.sleep(delay)
+    
+    progress_bar.close()
+    elapsed_time = time.time() - start_time
+
+    if found_urls:
+        print(f"\n{G}[Found {len(found_urls)} Panel paths]{X}")
+    else:
+        print(f"\n{R}[No Panel paths found]{X}")
+
+    # Statistiques finales
+    end_time = time.time()  
+    elapsed_time = end_time - start_time  
+
+    memory_info = psutil.Process().memory_info()
+    memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
+
+    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")  
+    print(f"{G}[+] Requests Done: {requests_done}")  
+    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
+    print(f"{G}[+] Memory used: {memory_used:.2f} MB")  
+    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")  
+    logging.info(f"[Found {len(found_urls)} Panel paths]")  
+    logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")  
+    logging.info(f"[Memory used: {memory_used:.2f} MB]")  
+    logging.info(f"[Requests Done: {len(found_urls) + errors}]")  
+    logging.info(f"[Errors: {errors}]")  
+#######################################################Panel Detections 
 
 
 
@@ -1178,6 +1279,7 @@ def main():
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
     parser.add_argument('-js', '--javascript', metavar='JS_FILE', help='Fichier contenant la wordlist des fichiers JavaScript')
+    parser.add_argument('-panel', '--panel', metavar='PANEL_FILE', help='Fichier contenant les chemins des panels')
     parser.add_argument("-v", "--version", action="store_true", help="Vérifier la version de WordPress")
     parser.add_argument("-t", "--time", type=int, required=True, help="Temps entre les requêtes")
     parser.add_argument("-n", "--number_of_pages", type=int, default=5, help="Nombre maximum de pages à tester (par défaut: 5)") 
@@ -1267,6 +1369,10 @@ def main():
     elif args.file_type:
         file_type = args.file_type
         test_file_combinations(site, file_type, delay, num_pages)
+    ######agressive Detections Panel 
+    if args.panel:
+        test_panel_files(args.url, args.panel, args.time, args.number_of_pages)
+
     """else:
         print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
         logging.error(f"[Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
