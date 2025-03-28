@@ -463,7 +463,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     print(f"{C}[+] Target IP: {site_ip}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
-    print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
+    ###print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
     print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
