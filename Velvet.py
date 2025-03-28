@@ -10,6 +10,8 @@ from concurrent.futures import as_completed
 import psutil
 from colorama import Fore, Style
 from fake_useragent import UserAgent
+import random
+
 ua = UserAgent()
 
 
@@ -300,20 +302,31 @@ files_to_check = [
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 def get_headers(use_random_ua, browser_type=None):
-    headers = {}
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    # Liste d'exemples de User-Agent populaires
+    user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/89.0.774.57 Safari/537.36",
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1"
+    ]
     
     if use_random_ua:
-        ua = UserAgent()
         if browser_type == "firefox":
-            headers["User-Agent"] = ua.firefox
+            headers["User-Agent"] = random.choice(user_agents)  # Choisir un User-Agent aléatoire parmi la liste
         elif browser_type == "chrome":
-            headers["User-Agent"] = ua.chrome
+            headers["User-Agent"] = random.choice(user_agents)
         elif browser_type == "safari":
-            headers["User-Agent"] = ua.safari
+            headers["User-Agent"] = random.choice(user_agents)
         else:
-            headers["User-Agent"] = ua.random  # Génère un User-Agent aléatoire
+            headers["User-Agent"] = random.choice(user_agents)  # Choisir un UA aléatoire par défaut
     else:
-        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"  # UA par défaut
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
 
     return headers
 # Fonction pour tester les fichiers WordPress
