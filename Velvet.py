@@ -1,3 +1,4 @@
+import socket
 import argparse
 from tqdm import tqdm
 import time
@@ -8,6 +9,10 @@ from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 import psutil
 from colorama import Fore, Style
+from fake_useragent import UserAgent
+ua = UserAgent()
+
+
 #Pour obtenir les informations sur la mémoire
 import datetime  # Pour afficher l'heure à la fin du scan
 import sys
@@ -250,7 +255,11 @@ def test_file_combinations(site, file_type, delay, num_pages, max_threads=10):
         print(f"\n{R}[No files found for type '{file_type}']{x}")
         logging.warning(f"[No files found for type '{file_type}']")
 
-#################################################################
+
+
+
+
+#################################################################//////Done 
 # Liste des fichiers à vérifier pour la version de WordPress
 """
 files_to_check = [
@@ -290,10 +299,36 @@ files_to_check = [
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
+def get_headers(use_random_ua, browser_type=None):
+    headers = {}
+    
+    if use_random_ua:
+        ua = UserAgent()
+        if browser_type == "firefox":
+            headers["User-Agent"] = ua.firefox
+        elif browser_type == "chrome":
+            headers["User-Agent"] = ua.chrome
+        elif browser_type == "safari":
+            headers["User-Agent"] = ua.safari
+        else:
+            headers["User-Agent"] = ua.random  # Génère un User-Agent aléatoire
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"  # UA par défaut
 
+    return headers
 # Fonction pour tester les fichiers WordPress
 def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     wp_version = check_wordpress_version(site)  # Récupérer la version de WP mais ne pas l'afficher ici
+    
+    # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+    
+    
+    
+    
     if not os.path.isfile(wp_file):
         print(f"{R}Le fichier WordPress {wp_file} n'existe pas!{X}")
         return
@@ -316,6 +351,13 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     progress_bar.set_postfix(found=0, errors=0, version="N/A")
 
     start_time = time.time()  # Pour mesurer le temps écoulé
+    
+
+
+    
+
+
+
 
     # Boucle de traitement des URLs #####Couleur porgress barre
     for i, path in enumerate(paths):
@@ -382,9 +424,18 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Fermer proprement la barre de progression après la boucle
     progress_bar.close()
+    
+    
 
+    use_random_ua = True  # Définir la valeur en fonction de votre logique
+    headers = get_headers(use_random_ua=use_random_ua, browser_type="chrome")
+    
+    
     # Temps écoulé
     elapsed_time = time.time() - start_time
+    
+
+    
 
     # Résultats finaux
     if found_urls:
@@ -392,22 +443,31 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
         logging.info(f"[+]Found {len(found_urls)} WordPress paths")
     else:
         print(f"\n{R}[+] No WordPress paths found{X}")
-        logging.warning(f"[+] No WordPress paths found")
-
+        logging.warning(f"[+] No WordPress paths found[+]")
+    
     # Afficher la version à la fin du scan
     if wp_version != "N/A":
-        print(f"\n{G}[+]WordPress Version Found[+]{X} {wp_version}")
+        print(f"\n{G}[+] WordPress Version Found [+]{X} {wp_version}")
     else:
-        print(f"\n{R}[WordPress Version Not Found at the End]{X}")
+        print(f"\n{R}[+]WordPress Version Not Found at the End[+]{X}")
+    
+   
+
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+
+    
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
 
     # Afficher les statistiques finales
     print(f"{C}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
+    print(f"{C}[+] Target IP: {site_ip}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
-    ######print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
+    print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
     print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    
 
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers
@@ -496,14 +556,24 @@ def check_wordpress_version(site):
 
 
 
-########################################
+########################################/////Done 
 
-
+#######################################Agressive detections Joomla
 # Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m'
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 # Fonction pour tester les fichiers Joomla
 def test_joomla_files(site, joomla_file, delay, num_pages):
+    
+    # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+    
+    
+    
+    
     if not os.path.exists(joomla_file):
         print(f"{R}[Error] Le fichier Joomla spécifié n'existe pas !{X}")
         return
@@ -576,9 +646,9 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     elapsed_time = time.time() - start_time
 
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} Joomla paths]{X}")
+        print(f"\n{G}[+] Found {len(found_urls)} Joomla paths {X}")
     else:
-        print(f"\n{R}[No Joomla paths found]{X}")
+        print(f"\n{R}[+] No Joomla paths found[+] {X}")
       # Statistiques finales
     end_time = time.time()  # Heure de fin
     elapsed_time = end_time - start_time  # Temps écoulé
@@ -586,12 +656,17 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
      # Affichage des statistiques finales
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
+     
 
-    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{G}[+] Requests Done: {requests_done}")
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{G}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+
+
+
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
     logging.info(f"[Found {len(found_urls)} admin paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -671,20 +746,29 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 
  """
-############################################Panel agressive Detections
+############################################Panel agressive Detections////Done
 
 
 
 #######################################################################
 
 
-############################################ JS Detection 
+############################################ JS Detection ////Done
 
 # Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m'
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 # Fonction pour tester les fichiers JavaScript
 def test_js_files(site, js_file, delay, num_pages):
+    
+    # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+    
+    
+    
     if not os.path.exists(js_file):
         print(f"{R}[Error] Le fichier JS spécifié n'existe pas !{X}")
         return
@@ -757,9 +841,9 @@ def test_js_files(site, js_file, delay, num_pages):
     elapsed_time = time.time() - start_time
 
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} JavaScript paths]{X}")
+        print(f"\n{G}[+] Found {len(found_urls)} JavaScript paths{X}")
     else:
-        print(f"\n{R}[No JavaScript paths found]{X}")
+        print(f"\n{R}[+] No JavaScript paths found[+]{X}")
 
     # Statistiques finales
     end_time = time.time()  
@@ -768,11 +852,13 @@ def test_js_files(site, js_file, delay, num_pages):
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
 
-    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{G}[+] Requests Done: {requests_done}")
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{G}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
     logging.info(f"[Found {len(found_urls)} JS paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -780,7 +866,7 @@ def test_js_files(site, js_file, delay, num_pages):
     logging.info(f"[Errors: {errors}]")
 
 
-#######################################################
+#######################################################js Agressive Detections////Done 
 
 
 
@@ -855,13 +941,22 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
         print(f"{RED}[No htaccess paths found]{RESET}")
 
 
-#######################################################Panel Agressive detections
+#######################################################Panel Agressive detections ////Done
 
 # Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m'
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 # Fonction pour tester les panels d'administration
 def test_panel_files(site, panel_file, delay, num_pages):
+         
+      # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+
+
+    
     if not os.path.exists(panel_file):
         print(f"{R}[Error] Le fichier Panel spécifié n'existe pas !{X}")
         return
@@ -934,9 +1029,9 @@ def test_panel_files(site, panel_file, delay, num_pages):
     elapsed_time = time.time() - start_time
 
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} Panel paths]{X}")
+        print(f"\n{G}[+] Found {len(found_urls)} Panel paths{X}")
     else:
-        print(f"\n{R}[No Panel paths found]{X}")
+        print(f"\n{R}[No Panel paths found[+] {X}")
 
     # Statistiques finales
     end_time = time.time()  
@@ -945,35 +1040,48 @@ def test_panel_files(site, panel_file, delay, num_pages):
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
 
-    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")  
-    print(f"{G}[+] Requests Done: {requests_done}")  
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
-    print(f"{G}[+] Memory used: {memory_used:.2f} MB")  
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")  
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
+    print(f"{C}[+] Target IP: {site_ip}") 
+    print(f"{C}[+] Requests Done: {requests_done}")  
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
+    print(f"{C}[+] Memory used: {memory_used:.2f} MB")  
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")  
     logging.info(f"[Found {len(found_urls)} Panel paths]")  
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")  
     logging.info(f"[Memory used: {memory_used:.2f} MB]")  
     logging.info(f"[Requests Done: {len(found_urls) + errors}]")  
     logging.info(f"[Errors: {errors}]")  
-#######################################################Panel Detections 
+#######################################################Panel Detections /////Done 
 
 
 
 
 
-####################################ADMIN FINDER CHAIn 
+####################################ADMIN FINDER CHAIn ////////Done 
 
 
 
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 
 # Fonction pour tester les fichiers ADLmin ### a finir l'add -verbose PATH 
-def test_admin_combinations(site, joomla_file, delay, num_pages):
-    if not os.path.exists(joomla_file):
+def test_admin_combinations(site, admin_file, delay, num_pages):
+   # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+
+   
+   
+   
+   
+    if not os.path.exists(admin_file):
         print(f"{R}[Error] Le fichier Joomla spécifié n'existe pas !{X}")
         return
     
-    with open(joomla_file, 'r', encoding='utf-8', errors='ignore') as file:
+    
+    with open(admin_file, 'r', encoding='utf-8', errors='ignore') as file:
         paths = [path.strip() for path in file.readlines()]
     
     found_urls = []
@@ -1041,19 +1149,20 @@ def test_admin_combinations(site, joomla_file, delay, num_pages):
     elapsed_time = time.time() - start_time
 
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} ADMIN Path ]{X}")
+        print(f"\n{G}[+] Found {len(found_urls)} ADMIN Path {X}")
     else:
-        print(f"\n{R}[No Admin paths found]{X}")
+        print(f"\n{R}[+] No Admin paths found{X}")
     
     # Statistiques finales
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
 
-    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{G}[+] Requests Done: {requests_done}")
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{G}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
     logging.info(f"[Found {len(found_urls)} admin paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -1149,14 +1258,21 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
 
 
 
-##############################ADMIN chain a  add certaine options 
+##############################ADMIN chain a  add certaine options ///Done 
 
 #############################API agressive Detections 
 # Fonction pour tester les chemins d'API# Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, O, X = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[36m', '\033[0m'
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
 
 # Fonction pour tester les chemins d'API
 def test_api_combinations(site, api_file, delay, num_pages):
+    
+    # Récupérer l'IP du site cible
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
     if not os.path.isfile(api_file):
         print(f"{R}Le fichier d'API {api_file} n'existe pas!{X}")
         logging.error(f"Le fichier d'API {api_file} n'existe pas!")
@@ -1249,25 +1365,26 @@ def test_api_combinations(site, api_file, delay, num_pages):
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
 
     if found_urls:
-        print(f"\n{G}[Found {len(found_urls)} API paths]{X}")
-        logging.info(f"[Found {len(found_urls)} API paths]")
+        print(f"\n{G}[+] Found {len(found_urls)} API {X}")
+        logging.info(f"[+] Found {len(found_urls)} API ")
     else:
-        print(f"\n{R}[No API paths found]{X}")
-        logging.warning(f"[No API paths found]")
+        print(f"\n{R}[+] No API paths found[+] {X}")
+        logging.warning(f"{R}[+] No API paths found [+] ")
 
     # Affichage des statistiques finales
-    print(f"{G}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{G}[+] Requests Done: {requests_done}")
-    print(f"{G}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{G}[+] Memory used: {memory_used:.2f} MB")
-    print(f"{G}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {memory_used:.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
     
     # Enregistrement des statistiques dans un fichier de logs
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
     logging.info(f"[Requests Done: {requests_done}]")
     logging.info(f"[Errors: {errors}]")
-########################################################################
+########################################################################API end 
 # Fonction principale pour gérer les arguments
 def main():
     parser = argparse.ArgumentParser(description="Exécuter des recherches pour des fichiers WordPress, API ou autres fichiers sur un site")
@@ -1279,6 +1396,9 @@ def main():
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
     parser.add_argument('-js', '--javascript', metavar='JS_FILE', help='Fichier contenant la wordlist des fichiers JavaScript')
+    ######parser.add_argument("--random-user-agent", action="store_true", help="Utiliser un User-Agent aléatoire")
+    ######parser.add_argument("--random-user-agent", "-ua", nargs="?", const="random", choices=["firefox", "chrome", "safari", "random"], help="Utiliser un User-Agent aléatoire (firefox, chrome, safari, ou random)")
+    parser.add_argument("--browser", choices=["firefox", "chrome", "safari"], help="Specify browser type for User-Agent")
     parser.add_argument('-panel', '--panel', metavar='PANEL_FILE', help='Fichier contenant les chemins des panels')
     parser.add_argument("-v", "--version", action="store_true", help="Vérifier la version de WordPress")
     parser.add_argument("-t", "--time", type=int, required=True, help="Temps entre les requêtes")

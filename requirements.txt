@@ -1,3 +1,5 @@
+UserAgent
+socket
 colorama
 psutil 
 tqdm

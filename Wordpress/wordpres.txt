@@ -98,7 +98,7 @@ wp-includes/js/push.js,
 wp-includes/js/push.min.js,
 wp-includes/js/wp-embed.js,
 wp-includes/js/wp-embed.min.js
-##########################################################################
+
 wp-content/themes/twentytwentyone/style.css
 wp-content/themes/twentytwentytwo/style.css
 wp-content/themes/twentytwentythree/style.css
@@ -107,14 +107,13 @@ wp-content/themes/twentytwentyone/functions.php
 wp-content/themes/twentytwentytwo/functions.php
 wp-content/themes/twentytwentythree/functions.php
 
-##########################################################################
-# """#####################################################################"""
+
 wp-content/plugins/akismet/akismet.php
 wp-content/plugins/hello.php
 wp-content/plugins/woocommerce/woocommerce.php
 wp-content/plugins/elementor/elementor.php
 wp-content/plugins/contact-form-7/wp-contact-form-7.php
-##############################################################################
+
 /wp-config-sample.php
 /wp-cron.php
 /wp-config.php
