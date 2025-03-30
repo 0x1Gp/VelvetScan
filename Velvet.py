@@ -300,31 +300,28 @@ files_to_check = [
 ]################################"""
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
 
-def get_headers(use_random_ua, browser_type=None):
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
     headers = {
         "Accept-Language": "en-US,en;q=0.9",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
     }
 
-    # Liste d'exemples de User-Agent populaires
-    user_agents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/89.0.774.57 Safari/537.36",
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1"
-    ]
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
     
-    if use_random_ua:
-        if browser_type == "firefox":
-            headers["User-Agent"] = random.choice(user_agents)  # Choisir un User-Agent aléatoire parmi la liste
-        elif browser_type == "chrome":
-            headers["User-Agent"] = random.choice(user_agents)
-        elif browser_type == "safari":
-            headers["User-Agent"] = random.choice(user_agents)
-        else:
-            headers["User-Agent"] = random.choice(user_agents)  # Choisir un UA aléatoire par défaut
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
     else:
         headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
 
@@ -469,11 +466,12 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
 
     
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
+    
 
     # Afficher les statistiques finales
     print(f"{C}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
     ###print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
@@ -573,8 +571,34 @@ def check_wordpress_version(site):
 
 #######################################Agressive detections Joomla
 # Constantes pour la mise en forme des couleurs
-R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
+
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
 # Fonction pour tester les fichiers Joomla
 def test_joomla_files(site, joomla_file, delay, num_pages):
     
@@ -603,7 +627,8 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
     progress_bar.set_postfix(found=0, errors=0)
     start_time = time.time()
-
+    use_random_ua = True  # Définir la valeur en fonction de votre logique
+    headers = get_headers(use_random_ua=use_random_ua, browser_type="chrome")
     for i, path in enumerate(paths):
         if i >= num_pages:
             break
@@ -671,11 +696,16 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
      
 
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+
+    
+    
 
 
-
+   
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
@@ -770,7 +800,32 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
 
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
 # Fonction pour tester les fichiers JavaScript
 def test_js_files(site, js_file, delay, num_pages):
     
@@ -864,11 +919,15 @@ def test_js_files(site, js_file, delay, num_pages):
 
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
-
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    
+    
+    
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
     print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
@@ -958,7 +1017,32 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
 
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
 # Fonction pour tester les panels d'administration
 def test_panel_files(site, panel_file, delay, num_pages):
          
@@ -1040,7 +1124,7 @@ def test_panel_files(site, panel_file, delay, num_pages):
     
     progress_bar.close()
     elapsed_time = time.time() - start_time
-
+    
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} Panel paths{X}")
     else:
@@ -1052,9 +1136,13 @@ def test_panel_files(site, panel_file, delay, num_pages):
 
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
-
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    
+    
+    
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
     print(f"{C}[+] Target IP: {site_ip}") 
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")  
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
     print(f"{C}[+] Memory used: {memory_used:.2f} MB")  
@@ -1075,7 +1163,32 @@ def test_panel_files(site, panel_file, delay, num_pages):
 
 
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
 
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
 
 # Fonction pour tester les fichiers ADLmin ### a finir l'add -verbose PATH 
 def test_admin_combinations(site, admin_file, delay, num_pages):
@@ -1169,9 +1282,10 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
     # Statistiques finales
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
-
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
@@ -1276,7 +1390,32 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
 #############################API agressive Detections 
 # Fonction pour tester les chemins d'API# Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
 
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
 
 # Fonction pour tester les chemins d'API
 def test_api_combinations(site, api_file, delay, num_pages):
@@ -1376,17 +1515,18 @@ def test_api_combinations(site, api_file, delay, num_pages):
     elapsed_time = time.time() - start_time
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
-
+    headers = get_headers(use_random_ua=True)
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} API {X}")
         logging.info(f"[+] Found {len(found_urls)} API ")
     else:
         print(f"\n{R}[+] No API paths found[+] {X}")
         logging.warning(f"{R}[+] No API paths found [+] ")
-
+     
     # Affichage des statistiques finales
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {memory_used:.2f} MB")
@@ -1409,8 +1549,8 @@ def main():
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
     parser.add_argument('-js', '--javascript', metavar='JS_FILE', help='Fichier contenant la wordlist des fichiers JavaScript')
-    ######parser.add_argument("--random-user-agent", action="store_true", help="Utiliser un User-Agent aléatoire")
-    ######parser.add_argument("--random-user-agent", "-ua", nargs="?", const="random", choices=["firefox", "chrome", "safari", "random"], help="Utiliser un User-Agent aléatoire (firefox, chrome, safari, ou random)")
+    ######parser.add_argument("--random-user-agent", action="store_true", help="Utiliser un User-Agent aléatoire") ##### a finir en boléen browser func
+    ######parser.add_argument("--random-user-agent", "-ua", nargs="?", const="random", choices=["firefox", "chrome", "safari", "random"], help="Utiliser un User-Agent aléatoire (firefox, chrome, safari, ou random)") ##### a finir  en booléen  user agent random mode 
     parser.add_argument("--browser", choices=["firefox", "chrome", "safari"], help="Specify browser type for User-Agent")
     parser.add_argument('-panel', '--panel', metavar='PANEL_FILE', help='Fichier contenant les chemins des panels')
     parser.add_argument("-v", "--version", action="store_true", help="Vérifier la version de WordPress")
