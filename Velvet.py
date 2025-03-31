@@ -261,7 +261,7 @@ def test_file_combinations(site, file_type, delay, num_pages, max_threads=10):
 
 
 
-#################################################################//////Done 
+#################################################################
 # Liste des fichiers à vérifier pour la version de WordPress
 """
 files_to_check = [
@@ -298,6 +298,13 @@ files_to_check = [
     "wp-includes/js/wp-embed.js",
     "wp-includes/js/wp-embed.min.js"
 ]################################"""
+#################################################################
+
+
+
+
+
+#######################################################################################################☑️Wordpress Scan Tool ☑️
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
@@ -559,6 +566,7 @@ def check_wordpress_version(site):
 
 
 
+############################################################################################☑️ 🔝Wordpress🔝 ☑️
 
 
 
@@ -567,9 +575,8 @@ def check_wordpress_version(site):
 
 
 
-########################################/////Done 
 
-#######################################Agressive detections Joomla
+#######################################☑️ detections Joomla ☑️ 
 # Constantes pour la mise en forme des couleurs
 
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -789,14 +796,14 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 
  """
-############################################Panel agressive Detections////Done
+############################################🔝joomla🔝 
 
 
 
 #######################################################################
 
 
-############################################ JS Detection ////Done
+############################################ ☑️JS Detection ☑️
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -938,10 +945,107 @@ def test_js_files(site, js_file, delay, num_pages):
     logging.info(f"[Errors: {errors}]")
 
 
-#######################################################js Agressive Detections////Done 
+#######################################################🔝js Agressive Detections🔝 
+
+###########################htacces  traveaux 
+
+# Définition des couleurs pour la mise en forme
+
+"""R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+# Chargement des User-Agents
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]
+    print(f"{Y}[DEBUG] {len(user_agents)} User-Agents chargés{X}")  # Debug
+    return user_agents
+
+def get_headers(use_random_ua, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+    user_agents = load_user_agents(ua_file)
+    if use_random_ua and user_agents:
+        headers["User-Agent"] = random.choice(user_agents)
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+    print(f"{C}[DEBUG] User-Agent utilisé: {headers['User-Agent']}{X}")  # Debug
+    return headers
+
+def test_htaccess_files(site, ht_file, delay, num_pages):
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+
+    if not os.path.isfile(ht_file):
+        print(f"{R}[ERROR] Le fichier {ht_file} n'existe pas!{X}")
+        return
+
+    with open(ht_file, 'r', encoding='utf-8', errors='ignore') as file:
+        paths = [path.strip() for path in file.readlines()]
+
+    print(f"{Y}[DEBUG] {len(paths)} chemins chargés depuis {ht_file}{X}")  # Debug
+
+    if not paths:
+        print(f"{R}[ERROR] Aucun chemin trouvé dans {ht_file}!{X}")
+        return
+
+    found_urls, errors, requests_done = [], 0, 0
+    data_sent, data_received = 0, 0
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+    progress_bar.set_postfix(found=0, errors=0)
+    start_time = time.time()
+
+    for i, path in enumerate(paths):
+        if i >= num_pages:
+            break
+        url = f"{site}/{path}"
+        print(f"{B}[DEBUG] Test URL: {url}{X}")  # Debug
+        try:
+            headers = get_headers(use_random_ua=True)
+            response = requests.get(url, headers=headers)
+            requests_done += 1
+            data_sent += len(response.request.body or b'')
+            data_received += len(response.content)
+            
+            if response.status_code == 200:
+                found_urls.append(url)
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"{G}[+]✅ [Found] ✅ [+]{X} {url}")
+            else:
+                errors += 1
+                progress_bar.set_postfix(found=len(found_urls), errors=errors)
+                print(f"[{response.status_code}] {url}")
+        
+        except requests.exceptions.RequestException as e:
+            errors += 1
+            progress_bar.set_postfix(found=len(found_urls), errors=errors)
+            print(f"{R}[Error]{X} {url} - {e}")
+        
+        progress_bar.update(1)
+        sys.stdout.flush()
+        time.sleep(delay)
+
+    progress_bar.close()
+    elapsed_time = time.time() - start_time
+    
+    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+"""
 
 
 
+"""
 # Fonction pour tester les fichiers .htaccess ####traveaux    a finir 
 def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
     if not os.path.exists(htaccess_file):
@@ -993,7 +1097,7 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
         except requests.exceptions.RequestException as e:
             print(f"{RED}[Error]{RESET} {url} - {e}")
         
-       
+
 
     
         # Mise à jour de la barre après chaque requête (sans la recréer)
@@ -1003,17 +1107,22 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
         time.sleep(delay)
     
 
-      # Fermer proprement la barre de progression après la boucle
+    # Fermer proprement la barre de progression après la boucle
     progress_bar.close()
 
 
     if found_urls:
         print(f"{GREEN}[Found {len(found_urls)} htaccess paths]{RESET}")
     else:
-        print(f"{RED}[No htaccess paths found]{RESET}")
+        print(f"{RED}[No htaccess paths found]{RESET}")"""
+
+###########################htacces  func
 
 
-#######################################################Panel Agressive detections ////Done
+
+
+
+#######################################################☑️Panel Agressive detections ////Done☑️
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -1152,13 +1261,13 @@ def test_panel_files(site, panel_file, delay, num_pages):
     logging.info(f"[Memory used: {memory_used:.2f} MB]")  
     logging.info(f"[Requests Done: {len(found_urls) + errors}]")  
     logging.info(f"[Errors: {errors}]")  
-#######################################################Panel Detections /////Done 
+#######################################################🔝Panel Detections🔝 
 
 
 
 
 
-####################################ADMIN FINDER CHAIn ////////Done 
+#☑️ADMIN FINDER CHAIn ////////Done☑️ 
 
 
 
@@ -1385,9 +1494,9 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
 
 
 
-##############################ADMIN chain a  add certaine options ///Done 
+############################## 🔝ADMIN chain a  add certaine options ///Done 🔝
 
-#############################API agressive Detections 
+#☑️API agressive Detections☑️ 
 # Fonction pour tester les chemins d'API# Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
@@ -1537,18 +1646,24 @@ def test_api_combinations(site, api_file, delay, num_pages):
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
     logging.info(f"[Requests Done: {requests_done}]")
     logging.info(f"[Errors: {errors}]")
-########################################################################API end 
-# Fonction principale pour gérer les arguments
+###############################################################################🔝API end🔝 
+
+
+#☑️ Fonction principale pour gérer les arguments☑️
 def main():
     parser = argparse.ArgumentParser(description="Exécuter des recherches pour des fichiers WordPress, API ou autres fichiers sur un site")
     parser.add_argument("-u", "--url", required=True, help="URL du site cible")
+    
     parser.add_argument("-f", "--file_type", required=False, help="Type de fichier (php, html, js, etc.)")
-    parser.add_argument("-ht", "--htaccess_file", required=False, default="HTaccess/htaccess.txt", help="Chemin vers le fichier de chemins .htaccess (par défaut: HTaccess/htaccess.txt)")
+    
     parser.add_argument("-wp", "--wordpress_file", required=False, help="Chemin vers le fichier de chemins WordPress") 
     parser.add_argument("-api", "--api_file", required=False, help="Chemin vers le fichier de chemins API")
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
     parser.add_argument('-js', '--javascript', metavar='JS_FILE', help='Fichier contenant la wordlist des fichiers JavaScript')
+    #### commande a rajouté : 
+    #### parser.add_argument('-ht', '--ht_file', required=True, help="Chemin vers le fichier .htaccess")
+    #### parser.add_argument('-ht', '--ht_file', required=True, help="Chemin vers le fichier .htaccess")
     ######parser.add_argument("--random-user-agent", action="store_true", help="Utiliser un User-Agent aléatoire") ##### a finir en boléen browser func
     ######parser.add_argument("--random-user-agent", "-ua", nargs="?", const="random", choices=["firefox", "chrome", "safari", "random"], help="Utiliser un User-Agent aléatoire (firefox, chrome, safari, ou random)") ##### a finir  en booléen  user agent random mode 
     parser.add_argument("--browser", choices=["firefox", "chrome", "safari"], help="Specify browser type for User-Agent")
@@ -1557,17 +1672,17 @@ def main():
     parser.add_argument("-t", "--time", type=int, required=True, help="Temps entre les requêtes")
     parser.add_argument("-n", "--number_of_pages", type=int, default=5, help="Nombre maximum de pages à tester (par défaut: 5)") 
     parser.add_argument("-thread", "--threads", type=int, default=10, help="Nombre de threads pour l'exécution en multithreading (par défaut: 10)")
-    
+    ##################################################################################################################################################🔝
     
     # Vérifier si l'argument Joomla est présent
-   
+
     
     args = parser.parse_args()
 
     site = args.url
     delay = args.time
     num_pages = args.number_of_pages
-   
+
     
     
     
@@ -1588,33 +1703,33 @@ def main():
     print_footer() 
     # Affichage de la version de l'outil
     print_version()
-     
+
     
     print_command_details(args)
     
-   
+
 
 
     
-       
+
 ####traveaux a  finir HT acess Fuzzer 
-   #### htaccess_folder = args.htaccess_file
+# #### htaccess_folder = args.htaccess_file
 
-     # Vérification si l'argument htaccess est spécifié
+# Vérification si l'argument htaccess est spécifié
     ###if htaccess_folder:
-      ###  test_htaccess_files(site, htaccess_folder, delay, num_pages)
+###  test_htaccess_files(site, htaccess_folder, delay, num_pages)
     ###else:
-       ### print(f"{RED}[Error] Vous devez spécifier un dossier contenant le fichier htacces.txt.{RESET}")
+### print(f"{RED}[Error] Vous devez spécifier un dossier contenant le fichier htacces.txt.{RESET}")
 
 
 
 
 
-
+    ####### API file☑️
     if args.api_file:
         api_file = args.api_file
         test_api_combinations(site, api_file, delay, num_pages)
-    
+    ####### WP file ☑️
     elif args.wordpress_file:
         wp_file = args.wordpress_file
         test_wordpress_files(site, wp_file, delay, num_pages)
@@ -1630,21 +1745,45 @@ def main():
         js_file = args.javascript
         test_js_files(args.url, js_file, args.time, args.number_of_pages)
 
-       
-     # Vérification si le fichier .htaccess existe
-      
-   # Vérification si le fichier .htaccess existe
 
+    
 
+    ######admin file ☑️
     elif args.admin_file:
         admin_file = args.admin_file
         test_admin_combinations(site, admin_file, delay, num_pages)
     elif args.file_type:
         file_type = args.file_type
         test_file_combinations(site, file_type, delay, num_pages)
-    ######agressive Detections Panel 
+    
+    ######☑️Panel 
+    
     if args.panel:
         test_panel_files(args.url, args.panel, args.time, args.number_of_pages)
+    
+
+
+
+
+    ####################### a finir 
+    # Utiliser le fichier avec un chemin approprié
+    """ht_file = f"htacces/{file_type}.txt"
+    
+    # Vérification de l'existence du fichier
+    if not os.path.exists(ht_file):
+        print(f"[ERROR] Le fichier {ht_file} n'existe pas!")
+    else:
+        print(f"[INFO] Fichier trouvé: {ht_file}")
+        test_htaccess_files(args.url, ht_file, args.delay, args.num_pages)
+    if args.file_type:
+    file_type = args.file_type
+    ht_file = f"Access/{file_type}.txt"  # Assurez-vous que ce chemin est correct
+    
+    if not os.path.exists(ht_file):
+        print(f"[ERROR] Le fichier {ht_file} n'existe pas!")
+    else:
+        test_htaccess_files(site, ht_file, delay, num_pages)"""
+
 
     """else:
         print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
