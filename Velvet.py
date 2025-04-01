@@ -512,7 +512,8 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     
 
     
-
+    ##date Finish
+    print("\n"f"{C}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
     # Résultats finaux
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} WordPress paths{X}")
@@ -521,8 +522,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
         print(f"\n{R}[+] No WordPress paths found{X}")
         logging.warning(f"[+] No WordPress paths found[+]")
     
-    ##date Finish
-    print(f"{G}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
+    
      
     # Afficher la version à la fin du scan
     if wp_version != "N/A":
