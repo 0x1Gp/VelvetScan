@@ -354,6 +354,9 @@ def check_ports(target_host):
     port_443_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 443) else f"{R}[+]🔴 Closed🔴 [+]{X}"
     return port_80_status, port_443_status
 
+
+
+#####Func de l'user agent lists 
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
     if not os.path.isfile(file_path):
@@ -552,7 +555,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     print(f"{C}[+] Ports Scannés: 80 -> {port_80_status} | 443 -> {port_443_status}{X}")
     # Affichage de l'état de chaque port
-    
+    ####Port status RDP/ssh/ftp etc...
     print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
     if port_status:  # Si le dictionnaire n'est pas vide
        for port, status_info in port_status.items():
