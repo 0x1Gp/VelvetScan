@@ -11,7 +11,9 @@ import psutil
 from colorama import Fore, Style
 from fake_useragent import UserAgent
 import random
-
+from ftplib import FTP
+import html
+import re 
 ua = UserAgent()
 
 
@@ -308,6 +310,50 @@ files_to_check = [
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
+# Fonction pour tester les ports critiques FTP, SSH, Telnet, RDP, VNC
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+def is_port_open(host, port=80, timeout=2):
+    """Vérifie si un port est ouvert sur une cible."""
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        return False
+
+def check_ports(target_host):
+    """ Vérifie l'état des ports 80 et 443 """
+    port_80_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 80) else f"{R}[+]🔴 Closed🔴[+]{X}"
+    port_443_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 443) else f"{R}[+]🔴 Closed🔴 [+]{X}"
+    return port_80_status, port_443_status
+
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
     if not os.path.isfile(file_path):
@@ -343,8 +389,11 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     except socket.gaierror:
         site_ip = "Unknown"
     
+    #Extraction du domaine cible
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
     
-    
+     # Vérifier les ports au début et les garder en mémoire
+    port_80_status, port_443_status = check_ports(target_host)
     
     if not os.path.isfile(wp_file):
         print(f"{R}Le fichier WordPress {wp_file} n'existe pas!{X}")
@@ -365,7 +414,12 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     progress_bar = tqdm(total=min(len(paths), num_pages), desc="Loading", unit="req", ncols=80, dynamic_ncols=True, leave=True)
 
     # Initialiser la barre avec un postfix pour afficher les statistiques
+    #Mise à jour initiale avec les ports (ils resteront affichés)
     progress_bar.set_postfix(found=0, errors=0, version="N/A")
+    
+
+    
+    
 
     start_time = time.time()  # Pour mesurer le temps écoulé
     
@@ -435,7 +489,9 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
             print(f"{R}[Error]{X} {url} - {e}")  # Affiche l'erreur
 
         # Mise à jour de la barre après chaque requête
-        progress_bar.update(1)  
+        progress_bar.set_postfix(found=len(found_urls), errors=errors, version="N/A", p80=port_80_status, p443=port_443_status)
+        progress_bar.update(1)
+        
         sys.stdout.flush()  # Forcer l'affichage immédiat
         time.sleep(delay)
 
@@ -456,12 +512,15 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Résultats finaux
     if found_urls:
-        print(f"\n{G}[+]Found {len(found_urls)} WordPress paths{X}")
-        logging.info(f"[+]Found {len(found_urls)} WordPress paths")
+        print(f"\n{G}[+] Found {len(found_urls)} WordPress paths{X}")
+        logging.info(f"{G}[+] Found {len(found_urls)} WordPress paths")
     else:
         print(f"\n{R}[+] No WordPress paths found{X}")
         logging.warning(f"[+] No WordPress paths found[+]")
     
+    ##date Finish
+    print(f"{G}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
+     
     # Afficher la version à la fin du scan
     if wp_version != "N/A":
         print(f"\n{G}[+] WordPress Version Found [+]{X} {wp_version}")
@@ -471,22 +530,49 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
    
 
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    server_type = response.headers.get("Server", "Unknown")  # Récupérer l'info du serveur
+    
+    
+    # Ajouter l'affichage pour FTP, SSH, Telnet, RDP, VNC
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
 
-    
-    
 
     # Afficher les statistiques finales
-    print(f"{C}[+] Finished:", datetime.datetime.now().strftime("%a %b %d %H:%M:%S %Y"))
-    print(f"{C}[+] Target IP: {site_ip}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
+    print(f"{C}[+] User-Agent Used: {X}{G}{headers['User-Agent']}{X}")#user agent 
+    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
+    print(f"{C}[+] Ports Scannés: 80 -> {port_80_status} | 443 -> {port_443_status}{X}")
+    # Affichage de l'état de chaque port
+    
+    print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+    
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
     ###print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
     print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    # Afficher seulement les ports ouverts
     
-
+    
+    ###for port, status_info in port_status.items():
+    #### print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    
+    
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers
 def check_wordpress_version(site):
@@ -500,6 +586,7 @@ def check_wordpress_version(site):
                 version_tag = response.text[start_index:end_index]
                 if 'content="' in version_tag:
                     version = version_tag.split('content="')[1]
+                    version = html.unescape(version)  # Convertir les entités HTML
                     return version
 
             # Recherche dans les headers HTTP
@@ -507,24 +594,26 @@ def check_wordpress_version(site):
                 header = response.headers['X-Powered-By']
                 if 'WordPress' in header:
                     version = header.split('WordPress/')[1]
+                    version = html.unescape(version)  # Convertir les entités HTML
                     return version
 
             # Recherche de la version dans les commentaires HTML
             if '<!-- WordPress version' in response.text:
                 version_tag = response.text.split('<!-- WordPress version')[1].split('-->')[0]
                 version = version_tag.split()[1]
+                version = html.unescape(version)  # Convertir les entités HTML
                 return version
 
-              # Vérification dans le fichier /license.txt
+            # Vérification dans le fichier /license.txt
             license_url = f"{site}/license.txt"
             license_response = requests.get(license_url)
             if license_response.status_code == 200:
                 # Recherche de la version dans le fichier license.txt
                 if "WordPress" in license_response.text:
                     version_tag = license_response.text.split("WordPress")[1].split()[0]
-                    return version_tag
+                    version = html.unescape(version_tag)  # Convertir les entités HTML
+                    return version
 
-            
             # Vérification dans le fichier /readme.html
             readme_url = f"{site}/readme.html"
             readme_response = requests.get(readme_url)
@@ -535,36 +624,17 @@ def check_wordpress_version(site):
                     start_index = readme_response.text.find("WordPress")
                     version_tag = readme_response.text[start_index:]
                     version = version_tag.split()[1]  # Prendre la version juste après "WordPress"
+                    version = html.unescape(version)  # Convertir les entités HTML
                     return version
 
-            #####agressive detections .js Wp versions
-            
-            """
-            # Vérification dans les fichiers JavaScript spécifiques
-            for file_path in files_to_check:
-                file_url = f"{site}/{file_path}"
-                file_response = requests.get(file_url)
-                if file_response.status_code == 200:
-                    # Cherche la présence de "wp_version" pour une détection plus agressive
-                    if "wp_version" in file_response.text.lower():
-                        # Exemple de chaîne qui pourrait contenir la version
-                        start_index = file_response.text.lower().find('wp_version')
-                        end_index = file_response.text.find('"', start_index)
-                        version = file_response.text[start_index:end_index].split('=')[1].strip('"')
-                        return version
-            """
-         
-
-
-
+            #####aggressive detections .js Wp versions
+            # (la partie agressive peut aussi être modifiée si nécessaire)
 
             # Si aucune version n'est trouvée, renvoyer "N/A"
             return "N/A"
         return "N/A"
     except requests.exceptions.RequestException:
         return "N/A"
-
-
 
 ############################################################################################☑️ 🔝Wordpress🔝 ☑️
 
@@ -704,7 +774,7 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
      
 
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
-
+    server_type = response.headers.get("Server", "Unknown") 
     
     
 
@@ -712,6 +782,7 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
    
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Server: {server_type} | URL: {url}{X}") 
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
@@ -928,12 +999,14 @@ def test_js_files(site, js_file, delay, num_pages):
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    server_type = response.headers.get("Server", "Unknown") 
     
     
     
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Server: {server_type} | URL: {url}{X}")
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
     print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
@@ -948,8 +1021,117 @@ def test_js_files(site, js_file, delay, num_pages):
 #######################################################🔝js Agressive Detections🔝 
 
 ###########################htacces  traveaux 
+# Définition des couleurs
+# Définition des couleurs
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
 # Définition des couleurs pour la mise en forme
+# Définition des couleurs
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+#######recherche dans la liste d'user agent pour en pioché un aléatoirement
+def load_user_agents(file_path="Agent/user_agents.txt"):
+    """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
+    if not os.path.isfile(file_path):
+        print(f"[ERROR] Le fichier '{file_path}' n'existe pas!")
+        return []
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        user_agents = [line.strip() for line in f if line.strip()]  # Enlever les lignes vides et espaces
+    return user_agents
+
+def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt"):
+    headers = {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+    }
+
+    user_agents = load_user_agents(ua_file)  # Charger les UA depuis le fichier
+    
+    if use_random_ua and user_agents:  # Vérifie si la liste d'UA n'est pas vide
+        headers["User-Agent"] = random.choice(user_agents)  # Prend un UA au hasard
+    else:
+        headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
+
+    return headers
+def test_htaccess_files(site, ht_file, delay, num_pages):
+    try:
+        site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
+    except socket.gaierror:
+        site_ip = "Unknown"
+
+    if not os.path.isfile(ht_file):
+        print(f"{R}Le fichier {ht_file} n'existe pas!{X}")
+        return
+
+    with open(ht_file, 'r', encoding='utf-8', errors='ignore') as file:
+        paths = [line.strip() for line in file if line.strip()]
+
+    found_urls = []
+    errors = 0
+    requests_done = 0
+    data_received = 0
+
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+
+    start_time = time.time()
+    
+    for i, path in enumerate(paths):
+        if i >= num_pages:
+            break
+        url = f"{site}/{path}"
+        try:
+            response = requests.get(url)
+            requests_done += 1
+            data_received += len(response.content)
+
+           
+            if response.status_code == 200:
+                found_urls.append(url)
+                progress_bar.colour = "green"
+                print(f"{G}[+]✅ [Found] {url}{X}")
+            elif response.status_code == 403:
+                errors += 1
+                progress_bar.colour = "magenta"
+                print(f"{P}[403 Forbidden] {url}{X}")
+            elif response.status_code == 404:
+                errors += 1
+                progress_bar.colour = "red"
+                print(f"{R}[404 Not Found] {url}{X}")
+            else:
+                errors += 1
+                progress_bar.colour = "red"
+                print(f"[{response.status_code}] {url}")
+        except requests.exceptions.RequestException as e:
+            errors += 1
+            progress_bar.colour = "red"
+            print(f"{R}[Error] {url} - {e}{X}")
+
+        progress_bar.update(1)
+        time.sleep(delay)
+    
+    
+
+    progress_bar.close()
+    elapsed_time = time.time() - start_time
+    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    server_type = response.headers.get("Server", "Unknown")  # Récupérer l'info du serveur  "apache/ngnix/"
+
+     
+    if found_urls:
+        print(f"\n{G}[+] Found {len(found_urls)} Htacces paths{X}")
+    else:
+        print(f"\n{R}[+] No HTacces paths found[+]{X}")
+     
+    print(f"\n{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Server: {server_type} | target :{site_ip} {X}")
+    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
+    print(f"{C}[+] Requests Done: {requests_done}")
+    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
+    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
+    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}{X}")
+
 
 """R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
@@ -1246,11 +1428,12 @@ def test_panel_files(site, panel_file, delay, num_pages):
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
-    
+    server_type = response.headers.get("Server", "Unknown") 
     
     
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
     print(f"{C}[+] Target IP: {site_ip}") 
+    print(f"{C}[+] Server: {server_type} | target :{site_ip} {X}")
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")  
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
@@ -1312,7 +1495,7 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
    
    
     if not os.path.exists(admin_file):
-        print(f"{R}[Error] Le fichier Joomla spécifié n'existe pas !{X}")
+        print(f"{R}[Error] Le fichier ADMIN spécifié n'existe pas !{X}")
         return
     
     
@@ -1391,9 +1574,13 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
     # Statistiques finales
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
-    headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
+    headers = get_headers(use_random_ua=True)
+    server_type = response.headers.get("Server", "Unknown") 
+    
+    
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Server: {server_type} | URL : {url} {X}")
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
@@ -1625,6 +1812,11 @@ def test_api_combinations(site, api_file, delay, num_pages):
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     headers = get_headers(use_random_ua=True)
+    server_type = response.headers.get("Server", "Unknown") 
+    
+    
+    
+    
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} API {X}")
         logging.info(f"[+] Found {len(found_urls)} API ")
@@ -1635,6 +1827,7 @@ def test_api_combinations(site, api_file, delay, num_pages):
     # Affichage des statistiques finales
     print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     print(f"{C}[+] Target IP: {site_ip}")
+    print(f"{C}[+] Server: {server_type} | URL : {url} {X}")
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
     print(f"{C}[+] Requests Done: {requests_done}")
     print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
@@ -1661,6 +1854,7 @@ def main():
     parser.add_argument("-admin", "--admin_file", required=False, help="Chemin vers le fichier de chemins d'administration")
     parser.add_argument("-joomla", "--joomla_file", required=False, help="Chemin vers le fichier de chemins Joomla")
     parser.add_argument('-js', '--javascript', metavar='JS_FILE', help='Fichier contenant la wordlist des fichiers JavaScript')
+    parser.add_argument("-ht", "--ht_file", help="Fichier contenant les chemins .htaccess")  # Correction ici
     #### commande a rajouté : 
     #### parser.add_argument('-ht', '--ht_file', required=True, help="Chemin vers le fichier .htaccess")
     #### parser.add_argument('-ht', '--ht_file', required=True, help="Chemin vers le fichier .htaccess")
@@ -1722,7 +1916,7 @@ def main():
 ### print(f"{RED}[Error] Vous devez spécifier un dossier contenant le fichier htacces.txt.{RESET}")
 
 
-
+    
 
 
     ####### API file☑️
@@ -1734,6 +1928,9 @@ def main():
         wp_file = args.wordpress_file
         test_wordpress_files(site, wp_file, delay, num_pages)
     
+    
+    if args.ht_file:  # Vérifier args.ht_file au lieu de args.ht
+        test_htaccess_files(args.url, args.ht_file, args.time, args.number_of_pages)
     
     ##Vérification de l'option -joomla et des autres paramètres
     if args.joomla_file:
@@ -1762,9 +1959,19 @@ def main():
         test_panel_files(args.url, args.panel, args.time, args.number_of_pages)
     
 
+    """if len(sys.argv) != 9:
+        print("Usage: python3 Velvet.py -u <target> -ht htacces/htacces.txt -t <delay> -n <num_pages>")
+        sys.exit(1)
+    
+    target = sys.argv[2]
+    ht_file = sys.argv[4]
+    delay = float(sys.argv[6])
+    num_pages = int(sys.argv[8])
+    
+    test_htaccess_files(target, ht_file, delay, num_pages)"""
 
-
-
+    
+    
     ####################### a finir 
     # Utiliser le fichier avec un chemin approprié
     """ht_file = f"htacces/{file_type}.txt"
@@ -1791,7 +1998,6 @@ def main():
     else:
         print(f"{R}[Error]{x} - Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.")
         logging.error(f"[Error] Vous devez spécifier soit un fichier WordPress (-wp), un fichier API (-api), un fichier admin (-admin), ou un type de fichier (-f) pour effectuer un scan.") """
-
 
 
 

@@ -1,3 +1,5 @@
+html
+re
 random
 UserAgent
 socket

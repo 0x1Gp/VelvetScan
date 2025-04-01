@@ -1,7 +1,10 @@
+
 /license.txt
 /readme.html
 /xmlrpc.php
 /dashboard
+/FTP/
+/wordfence-waf.php
 /wp-includes/
 /wp-content/
 /wp-includes/PHPMailer/
