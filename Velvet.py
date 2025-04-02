@@ -96,20 +96,33 @@ def print_command_details(args):
     print(f"{PINK}\n________________________________________________________________{RESET}")
     print(     f" {GREEN}        :: URL              : {args.url}              {RESET}")
     if args.file_type:         
-        print(f" {GREEN}        :: Type de fichier  :  {args.file_type}        {RESET}") 
+        print(f" {GREEN}        :: Type de fichier   :  {args.file_type}        {RESET}") 
     if args.wordpress_file:         
-        print(f" {GREEN}        :: Wordlist         :  {args.wordpress_file}        {RESET}")
+        print(f" {GREEN}        :: Wordlist          :  {args.wordpress_file}        {RESET}")
     if args.api_file:         
-        print(f" {GREEN}        :: Wordlist         :  {args.api_file}        {RESET}")
-    if args.api_file:         
-        print(f" {GREEN}        :: Wordlist         :  {args.joomla_file}        {RESET}")  
+        print(f" {GREEN}        :: Wordlist          :  {args.api_file}        {RESET}")
+    if args.joomla_file:         
+        print(f" {GREEN}        :: Wordlist          :  {args.joomla_file}        {RESET}")
+    
       
     if args.admin_file:         
-        print(f" {GREEN}        :: Wordlist         :  {args.admin_file}        {RESET}")    
+        print(f" {GREEN}        :: Wordlist          :  {args.admin_file}        {RESET}")  
+    if args.panel:
+        print(f" {GREEN}        :: Wordlist          : {args.panel}        {RESET}")
+    
+
+    if args.javascript:  
+        print(f" {GREEN}        :: JS Wordlist       : {args.javascript}        {RESET}")
+
+    if args.ht_file:
+        print(f" {GREEN}        :: Wordlist          : {args.ht_file}        {RESET}")
+
+
+
     if args.time:
         print(f" {GREEN}        :: Time             :  {args.time} s           {RESET}")
     if args.number_of_pages:
-        print(f"{GREEN}         :: Page             :  {args.number_of_pages}  {RESET}")
+        print(f"{GREEN}         :: Page              :  {args.number_of_pages}  {RESET}")
     print(f"{PINK}________________________________________________________________{RESET}")
 
 
@@ -545,6 +558,8 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     5900: {"name": "VNC", "status": "", "info": ""}
     }
        
+    
+    
     # Après avoir exécuté la fonction check_critical_ports
     port_status = check_critical_ports(target_host)
 
@@ -555,6 +570,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     print(f"{C}[+] Ports Scannés: 80 -> {port_80_status} | 443 -> {port_443_status}{X}")
     # Affichage de l'état de chaque port
+    
     ####Port status RDP/ssh/ftp etc...
     print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
     if port_status:  # Si le dictionnaire n'est pas vide
@@ -563,12 +579,17 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     else:
        print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
     
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Cached Requests: {requests_done - len(found_urls)}")  # Estimation des requêtes mises en cache
+
+    
+
+
+
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Cached Requests:{G} {requests_done - len(found_urls)}{X}")  # Estimation des requêtes mises en cache
     ###print(f"{G}[+] Data Sent: {data_sent / 1024:.3f} KB")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used: {G}{psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
     # Afficher seulement les ports ouverts
     
     
@@ -653,6 +674,46 @@ def check_wordpress_version(site):
 # Constantes pour la mise en forme des couleurs
 
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+def is_port_open(host, port=80, timeout=2):
+    """Vérifie si un port est ouvert sur une cible."""
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        return False
+
+
+
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
@@ -681,7 +742,8 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
     return headers
 # Fonction pour tester les fichiers Joomla
 def test_joomla_files(site, joomla_file, delay, num_pages):
-    
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
+
     # Récupérer l'IP du site cible
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
@@ -763,6 +825,10 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     progress_bar.close()
     elapsed_time = time.time() - start_time
 
+    print("\n"f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+
+
+    ####affichage
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} Joomla paths {X}")
     else:
@@ -778,19 +844,41 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
 
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
     server_type = response.headers.get("Server", "Unknown") 
+    # Ajouter l'affichage pour FTP, SSH, Telnet, RDP, VNC
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
     
+    
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
+
     
 
 
    
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{C}[+] Target IP: {site_ip}")
-    print(f"{C}[+] Server: {server_type} | URL: {url}{X}") 
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
+    #####Scan ssh/rdp/ftp 
+    ###nt(f"{C}[+] Port 80 Status: {port_80_status}{X}")
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+
+
+    
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:{G} {memory_used:.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
     logging.info(f"[Found {len(found_urls)} admin paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -881,6 +969,46 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+def is_port_open(host, port=80, timeout=2):
+    """Vérifie si un port est ouvert sur une cible."""
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        return False
+
+
+
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
@@ -909,7 +1037,7 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
     return headers
 # Fonction pour tester les fichiers JavaScript
 def test_js_files(site, js_file, delay, num_pages):
-    
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
     # Récupérer l'IP du site cible
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
@@ -988,6 +1116,11 @@ def test_js_files(site, js_file, delay, num_pages):
     
     progress_bar.close()
     elapsed_time = time.time() - start_time
+    
+    print("\n"f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
+
+
+
 
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} JavaScript paths{X}")
@@ -1003,17 +1136,36 @@ def test_js_files(site, js_file, delay, num_pages):
     
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
     server_type = response.headers.get("Server", "Unknown") 
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
     
     
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
     
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Target IP: {site_ip}")
+    
+   
+    print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
     print(f"{C}[+] Server: {server_type} | URL: {url}{X}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] Target IP: {site_ip}")
+    
+    ####scan ssh /rdp/ftp
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:{G} {memory_used:.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
     logging.info(f"[Found {len(found_urls)} JS paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -1027,7 +1179,42 @@ def test_js_files(site, js_file, delay, num_pages):
 # Définition des couleurs
 # Définition des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
 
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+def is_port_open(host, port=80, timeout=2):
+    """Vérifie si un port est ouvert sur une cible."""
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        return False
 # Définition des couleurs pour la mise en forme
 # Définition des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -1058,6 +1245,7 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
 
     return headers
 def test_htaccess_files(site, ht_file, delay, num_pages):
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
     except socket.gaierror:
@@ -1119,21 +1307,41 @@ def test_htaccess_files(site, ht_file, delay, num_pages):
     elapsed_time = time.time() - start_time
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
     server_type = response.headers.get("Server", "Unknown")  # Récupérer l'info du serveur  "apache/ngnix/"
-
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
+    
+    
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
      
+
+    print("\n"f"\n{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} Htacces paths{X}")
     else:
         print(f"\n{R}[+] No HTacces paths found[+]{X}")
-     
-    print(f"\n{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{C}[+] Target IP: {site_ip}")
-    print(f"{C}[+] Server: {server_type} | target :{site_ip} {X}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}{X}")
+
+
+    print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
+    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
+    
+    ####scan ssh /rdp/ftp
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:  {G}{psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB {X}")
+    print(f"{C}[+] Elapsed time:  {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
 
 
 """R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -1311,6 +1519,39 @@ def test_htaccess_files(site, htaccess_file, delay, number_of_pages):
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+
+
+
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
@@ -1339,7 +1580,7 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
     return headers
 # Fonction pour tester les panels d'administration
 def test_panel_files(site, panel_file, delay, num_pages):
-         
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]    
       # Récupérer l'IP du site cible
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
@@ -1418,7 +1659,7 @@ def test_panel_files(site, panel_file, delay, num_pages):
     
     progress_bar.close()
     elapsed_time = time.time() - start_time
-    
+    print("\n"f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} Panel paths{X}")
     else:
@@ -1432,16 +1673,35 @@ def test_panel_files(site, panel_file, delay, num_pages):
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     headers = get_headers(use_random_ua=True)  # Assurez-vous que 'True' ou 'False' est passé en fonction de la commande
     server_type = response.headers.get("Server", "Unknown") 
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
     
     
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}") 
-    print(f"{C}[+] Target IP: {site_ip}") 
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
+
+
+
+    print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
     print(f"{C}[+] Server: {server_type} | target :{site_ip} {X}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Requests Done: {requests_done}")  
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")  
-    print(f"{C}[+] Memory used: {memory_used:.2f} MB")  
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")  
+    print(f"{C}[+] Target IP: {site_ip}") 
+    ####scan ssh /rdp/ftp
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+    
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:{G} {memory_used:.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
     logging.info(f"[Found {len(found_urls)} Panel paths]")  
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")  
     logging.info(f"[Memory used: {memory_used:.2f} MB]")  
@@ -1458,6 +1718,40 @@ def test_panel_files(site, panel_file, delay, num_pages):
 
 
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+
+
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
@@ -1487,6 +1781,8 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
 
 # Fonction pour tester les fichiers ADLmin ### a finir l'add -verbose PATH 
 def test_admin_combinations(site, admin_file, delay, num_pages):
+   #Extraction du domaine cible
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
    # Récupérer l'IP du site cible
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
@@ -1568,27 +1864,55 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
     
     progress_bar.close()
     elapsed_time = time.time() - start_time
-
+    
+    
+    print("\n"f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} ADMIN Path {X}")
     else:
         print(f"\n{R}[+] No Admin paths found{X}")
     
+    
+
+
+
     # Statistiques finales
     memory_info = psutil.Process().memory_info()
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     headers = get_headers(use_random_ua=True)
     server_type = response.headers.get("Server", "Unknown") 
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
     
     
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{C}[+] Target IP: {site_ip}")
-    print(f"{C}[+] Server: {server_type} | URL : {url} {X}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024):.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
+
+
+
+
+    print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
+    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
+    ####Port status RDP/ssh/ftp etc...
+    ##print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+    
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:{G} {memory_used:.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
+    
     logging.info(f"[Found {len(found_urls)} admin paths]")
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
     logging.info(f"[Memory used: {memory_used:.2f} MB]")
@@ -1689,6 +2013,43 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
 #☑️API agressive Detections☑️ 
 # Fonction pour tester les chemins d'API# Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
+
+
+
+
+def check_critical_ports(target_host):
+    ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
+    port_status = {}
+
+    for port, service in ports.items():
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)  # Timeout de 2 secondes
+        result = sock.connect_ex((target_host, port))
+
+        if result == 0:
+            # Le port est ouvert
+            port_status[port] = {"name": service, "status": f"{G}🟢 Open{X}", "info": ""}
+            try:
+                if port == 21:
+                    ftp = FTP(target_host, timeout=2)
+                    ftp.login()  # Test de connexion anonyme
+                    port_status[port]["info"] = "Anonymous Login Allowed"
+                    ftp.quit()
+                else:
+                    sock.send(b'\n')
+                    banner = sock.recv(1024).decode().strip()
+                    if banner:
+                        port_status[port]["info"] = f"{G}Banner: {banner}{X}"
+            except Exception as e:
+                port_status[port]["info"] = f"Error: {str(e)}"
+        sock.close()
+
+    return port_status
+
+
+
+
+
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
     """Charge les User-Agents depuis un fichier et les retourne sous forme de liste."""
@@ -1718,7 +2079,8 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
 
 # Fonction pour tester les chemins d'API
 def test_api_combinations(site, api_file, delay, num_pages):
-    
+       #Extraction du domaine cible
+    target_host = site.replace("http://", "").replace("https://", "").split('/')[0]
     # Récupérer l'IP du site cible
     try:
         site_ip = socket.gethostbyname(site.replace("http://", "").replace("https://", "").split('/')[0])
@@ -1816,9 +2178,20 @@ def test_api_combinations(site, api_file, delay, num_pages):
     memory_used = memory_info.rss / (1024 * 1024)  # Converti en Mo
     headers = get_headers(use_random_ua=True)
     server_type = response.headers.get("Server", "Unknown") 
+    port_status = {
+    21: {"name": "FTP", "status": "", "info": ""},
+    22: {"name": "SSH", "status": "", "info": ""},
+    23: {"name": "Telnet", "status": "", "info": ""},
+    3389: {"name": "RDP", "status": "", "info": ""},
+    5900: {"name": "VNC", "status": "", "info": ""}
+    }
+       
     
     
+    # Après avoir exécuté la fonction check_critical_ports
+    port_status = check_critical_ports(target_host)
     
+    print("\n"f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
     
     if found_urls:
         print(f"\n{G}[+] Found {len(found_urls)} API {X}")
@@ -1828,14 +2201,21 @@ def test_api_combinations(site, api_file, delay, num_pages):
         logging.warning(f"{R}[+] No API paths found [+] ")
      
     # Affichage des statistiques finales
-    print(f"{C}[+] Finished: {datetime.datetime.now().strftime('%a %b %d %H:%M:%S %Y')}")
-    print(f"{C}[+] Target IP: {site_ip}")
-    print(f"{C}[+] Server: {server_type} | URL : {url} {X}")
-    print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Requests Done: {requests_done}")
-    print(f"{C}[+] Data Received: {data_received / (1024 * 1024):.3f} MB")
-    print(f"{C}[+] Memory used: {memory_used:.2f} MB")
-    print(f"{C}[+] Elapsed time: {str(datetime.timedelta(seconds=elapsed_time))}")
+    print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
+    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
+    ####Port status RDP/ssh/ftp etc...
+    ##print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
+    if port_status:  # Si le dictionnaire n'est pas vide
+       for port, status_info in port_status.items():
+        print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
+    else:
+       print(f"{R}[+] Aucun port critique ouvert sur ce site.{X}")
+    
+    print(f"{C}[+] Requests Done: {G}{requests_done}{X}")
+    print(f"{C}[+] Data Received: {G}{data_received / (1024 * 1024):.3f} MB{X}")
+    print(f"{C}[+] Memory used:{G} {memory_used:.2f} MB{X}")
+    print(f"{C}[+] Elapsed time: {G}{str(datetime.timedelta(seconds=elapsed_time))}{X}")
     
     # Enregistrement des statistiques dans un fichier de logs
     logging.info(f"[Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(elapsed_time))}]")
