@@ -3,12 +3,17 @@
 /readme.html
 /xmlrpc.php
 /dashboard
+/wp-json/wp/v2/users/
+/wp-content/plugins/mailin/js/mailin-front.js?ver=1740564007
+/v2.0/.well-known/openid-configuration
 /FTP/
 /wordfence-waf.php
 /wp-includes/
 /wp-content/
 /wp-includes/PHPMailer/
 /wp-content/uploads/redux/
+/wp-content/plugins/wp-crontrol/readme.txt
+/wp-content/plugins/simple-custom-post-order/readme.txt
 /wp-includes/SimplePie/Cache/Base.php
 /wp-includes/SimplePie/Cache/File.php
 /wp-includes/SimplePie/Net/IPv6.php
@@ -18,6 +23,8 @@
 /wp-content/plugins/wp-rocket/inc/API/
 /wp-includes/SimplePie/src/Cache/Base.php
 /wp-includes/SimplePie/src/Cache/CallableNameFilter.php
+/emmaus-france.org/v2.0/.well-known/openid-configuration
+/wp-content/themes/.git/config
 /access-category-password-de_DE.mo
 /access-category-password-de_DE.po
 /access-category-password-fr_FR.mo
@@ -163,6 +170,7 @@ wp-includes/Text/Diff/Engine/native.php
 ///wp-admin/install.php
 /wp-activate.php
 /wp-admin/
+/wp-content/themes/.git/config
 /wp-admin/about.php
 /wp-admin/admin-ajax.php
 /wp-admin/admin-db.php

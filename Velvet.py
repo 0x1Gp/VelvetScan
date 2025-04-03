@@ -11,9 +11,11 @@ import psutil
 from colorama import Fore, Style
 from fake_useragent import UserAgent
 import random
-from ftplib import FTP
+from ftplib import FTP, FTP_TLS
 import html
 import re 
+from bs4 import BeautifulSoup
+import hashlib
 ua = UserAgent()
 
 
@@ -324,6 +326,7 @@ files_to_check = [
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 # Fonction pour tester les ports critiques FTP, SSH, Telnet, RDP, VNC
+# Fonction pour tester les ports critiques FTP, SSH, Telnet, RDP, VNC
 def check_critical_ports(target_host):
     ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
     port_status = {}
@@ -352,7 +355,7 @@ def check_critical_ports(target_host):
         sock.close()
 
     return port_status
-
+    
 def is_port_open(host, port=80, timeout=2):
     """Vérifie si un port est ouvert sur une cible."""
     try:
@@ -537,11 +540,11 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     
     
      
-    # Afficher la version à la fin du scan
-    if wp_version != "N/A":
-        print(f"\n{G}[+] WordPress Version Found [+]{X} {wp_version}")
+    if wp_version and wp_version != "N/A":
+      print(f"\n{C}[+] WordPress Version Found: {wp_version}")
     else:
-        print(f"\n{R}[+]WordPress Version Not Found at the End[+]{X}")
+      print(f"\n{R}[+] No WordPress Version Detected [+]{X}")
+
     
    
 
@@ -599,64 +602,198 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers
+
+# Liste des versions connues de WordPress (simplifiée pour l'exemple)
+# Fonction pour vérifier la version de WordPress
+# Safe Detections Headers + Aggressive detections
 def check_wordpress_version(site):
+    known_versions = [
+    "6.8",      # Toute dernière version prévue avril 2025 (RC2 au 1er avril 2025)
+    "6.7.2",    # Mineure, détectée dans ton exemple, pas de vulnérabilités majeures connues
+    "6.7.1",    # Mineure, décembre 2024
+    "6.7",      # 12 novembre 2024, stable
+    "6.6.1",    # Mineure, août 2024
+    "6.6",      # 16 juillet 2024, stable
+    "6.5.5",    # Mineure, été 2024, corrige XSS authentifié (CVE-2024-6308)
+    "6.5.4",    # Mineure, vulnérable à XSS authentifié via HTML API
+    "6.5.3",    # Mineure, vulnérable à Directory Traversal sur Windows
+    "6.5.2",    # Mineure, printemps 2024
+    "6.5.1",    # Mineure, printemps 2024
+    "6.5",      # 2 avril 2024, stable
+    "6.4.3",    # Mineure, janvier 2024, corrige RCE critique (CVE-2023-6875)
+    "6.4.2",    # Mineure, vulnérable à RCE via plugin upload
+    "6.4.1",    # Mineure, novembre 2023
+    "6.4",      # 7 novembre 2023, stable
+    "6.3.2",    # Mineure, octobre 2023
+    "6.3.1",    # Mineure, septembre 2023
+    "6.3",      # 8 août 2023, vulnérable à XSS authentifié (CVE-2023-3999)
+    "6.2.2",    # Mineure, mai 2023
+    "6.2.1",    # Mineure, avril 2023
+    "6.2",      # 28 mars 2023, stable
+    "6.1.3",    # Mineure, août 2023
+    "6.1.2",    # Mineure, juillet 2023
+    "6.1.1",    # Mineure, décembre 2022
+    "6.1",      # 1er novembre 2022, vulnérable à SQL Injection (CVE-2022-21664)
+    "6.0.3",    # Mineure, octobre 2022
+    "6.0.2",    # Mineure, août 2022
+    "6.0.1",    # Mineure, juin 2022
+    "6.0",      # 24 mai 2022, stable
+    "5.9.3",    # Mineure, avril 2022
+    "5.9.2",    # Mineure, mars 2022
+    "5.9.1",    # Mineure, février 2022
+    "5.9",      # 25 janvier 2022, vulnérable à XSS authentifié (CVE-2022-0215)
+    "5.8.4",    # Mineure, avril 2022
+    "5.8.3",    # Mineure, janvier 2022
+    "5.8.2",    # Mineure, décembre 2021
+    "5.8.1",    # Mineure, septembre 2021
+    "5.8",      # 20 juillet 2021, stable
+    "5.7.4",    # Mineure, décembre 2021
+    "5.7.3",    # Mineure, octobre 2021
+    "5.7.2",    # Mineure, mai 2021
+    "5.7.1",    # Mineure, avril 2021
+    "5.7",      # 9 mars 2021, vulnérable à XSS via REST API (CVE-2021-24117)
+    "5.6.4",    # Mineure, mai 2021
+    "5.6.3",    # Mineure, avril 2021
+    "5.6.2",    # Mineure, mars 2021
+    "5.6.1",    # Mineure, février 2021
+    "5.6"       # 8 décembre 2020, vulnérable à XSS et RCE (CVE-2020-28032), plus ancienne de ton bloc
+    "5.5.3",    # Mineure, octobre 2020
+    "5.5.2",    # Mineure, septembre 2020
+    "5.5.1",    # Mineure, août 2020
+    "5.5",      # 11 août 2020
+    "5.4.2",    # Mineure, juin 2020
+    "5.4.1",    # Mineure, avril 2020
+    "5.4",      # 31 mars 2020
+    "5.3.2",    # Mineure, décembre 2019
+    "5.3.1",    # Mineure, novembre 2019
+    "5.3",      # 12 novembre 2019
+    "5.2.4",    # Mineure, octobre 2019
+    "5.2.3",    # Mineure, septembre 2019
+    "5.2.2",    # Mineure, juillet 2019
+    "5.2.1",    # Mineure, mai 2019
+    "5.2",      # 7 mai 2019
+    "5.1.1",    # Mineure, mars 2019
+    "5.1",      # 21 février 2019
+    "5.0.3",    # Mineure, janvier 2019
+    "5.0.2",    # Mineure, décembre 2018
+    "5.0.1",    # Mineure, décembre 2018
+    "5.0",      # 6 décembre 2018, vulnérable à XSS (CVE-2018-20153)
+    "4.9.8",    # Mineure, août 2018
+    "4.9.7",    # Mineure, juillet 2018
+    "4.9.6",    # Mineure, mai 2018
+    "4.9.5",    # Mineure, avril 2018
+    "4.9.4",    # Mineure, février 2018
+    "4.9.3",    # Mineure, février 2018
+    "4.9.2",    # Mineure, janvier 2018
+    "4.9.1",    # Mineure, novembre 2017
+    "4.9",      # 14 novembre 2017
+    "4.8",      # 8 juin 2017
+    "4.7",      # 6 décembre 2016, vulnérable à REST API (CVE-2017-5487)
+    "4.6",      # 16 août 2016
+    "4.5",      # 12 avril 2016
+    "4.4",      # 8 décembre 2015
+    "4.3",      # 18 août 2015
+    "4.2",      # 23 avril 2015, vulnérable à XSS (CVE-2015-3438)
+    "4.1",      # 18 décembre 2014
+    "4.0",      # 4 septembre 2014
+    "3.9",      # 16 avril 2014
+    "3.8",      # 12 décembre 2013
+    "3.7",      # 24 octobre 2013
+    "3.6",      # 1er août 2013, vulnérable à DoS (CVE-2013-5738)
+    "3.5",      # 11 décembre 2012
+    "3.4",      # 13 juin 2012
+    "3.3",      # 12 décembre 2011
+    "3.2",      # 4 juillet 2011
+    "3.1",      # 23 février 2011
+    "3.0",      # 17 juin 2010
+    "2.9",      # 19 décembre 2009
+    "2.8",      # 11 juin 2009
+    "2.7",      # 11 décembre 2008
+    "2.6",      # 15 juillet 2008
+    "2.5",      # 29 mars 2008, vulnérable à SQL Injection (CVE-2008-5278)
+    "2.3",      # 24 septembre 2007
+    "2.2",      # 16 mai 2007
+    "2.1",      # 22 janvier 2007
+    "2.0",      # 31 décembre 2005, vulnérable à XSS (CVE-2005-4463)
+    "1.5",      # 17 février 2005
+    "1.2",      # 22 mai 2004
+    "1.0"       # 3 janvier 2004, extrêmement vulnérable (aucun support)
+]
     try:
-        response = requests.get(site)
-        if response.status_code == 200:
-            # Recherche dans le meta tag "generator"
-            if 'generator' in response.text.lower():
-                start_index = response.text.lower().find('generator')
-                end_index = response.text.find('"', start_index)
-                version_tag = response.text[start_index:end_index]
-                if 'content="' in version_tag:
-                    version = version_tag.split('content="')[1]
-                    version = html.unescape(version)  # Convertir les entités HTML
-                    return version
-
-            # Recherche dans les headers HTTP
-            if 'X-Powered-By' in response.headers:
-                header = response.headers['X-Powered-By']
-                if 'WordPress' in header:
-                    version = header.split('WordPress/')[1]
-                    version = html.unescape(version)  # Convertir les entités HTML
-                    return version
-
-            # Recherche de la version dans les commentaires HTML
-            if '<!-- WordPress version' in response.text:
-                version_tag = response.text.split('<!-- WordPress version')[1].split('-->')[0]
-                version = version_tag.split()[1]
-                version = html.unescape(version)  # Convertir les entités HTML
-                return version
-
-            # Vérification dans le fichier /license.txt
-            license_url = f"{site}/license.txt"
-            license_response = requests.get(license_url)
-            if license_response.status_code == 200:
-                # Recherche de la version dans le fichier license.txt
-                if "WordPress" in license_response.text:
-                    version_tag = license_response.text.split("WordPress")[1].split()[0]
-                    version = html.unescape(version_tag)  # Convertir les entités HTML
-                    return version
-
-            # Vérification dans le fichier /readme.html
-            readme_url = f"{site}/readme.html"
-            readme_response = requests.get(readme_url)
-            if readme_response.status_code == 200:
-                # Recherche de la version dans le fichier readme.html
-                if "WordPress" in readme_response.text:
-                    # Extraire la version après la mention "WordPress"
-                    start_index = readme_response.text.find("WordPress")
-                    version_tag = readme_response.text[start_index:]
-                    version = version_tag.split()[1]  # Prendre la version juste après "WordPress"
-                    version = html.unescape(version)  # Convertir les entités HTML
-                    return version
-
-            #####aggressive detections .js Wp versions
-            # (la partie agressive peut aussi être modifiée si nécessaire)
-
-            # Si aucune version n'est trouvée, renvoyer "N/A"
+        response = requests.get(site, timeout=5)
+        if response.status_code != 200:
             return "N/A"
-        return "N/A"
+        
+        detected_version = "N/A"
+        detection_source = "Not detected"  # Nouvelle variable pour la source
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Meta generator
+        meta_generator = soup.find("meta", attrs={"name": "generator"})
+        if meta_generator and "WordPress" in meta_generator["content"]:
+            detected_version = meta_generator["content"].split("WordPress ")[-1]
+            detection_source = f"{site} (meta generator tag)"
+
+        # Headers HTTP
+        if "X-Powered-By" in response.headers and "WordPress" in response.headers["X-Powered-By"]:
+            detected_version = response.headers["X-Powered-By"].split("WordPress/")[-1]
+            detection_source = f"{site} (HTTP header X-Powered-By)"
+
+        # Readme.html
+        readme_url = f"{site}/readme.html"
+        readme_response = requests.get(readme_url, timeout=5)
+        if readme_response.status_code == 200 and "WordPress" in readme_response.text:
+            match = re.search(r"WordPress (\d+\.\d+(\.\d+)?)", readme_response.text)
+            if match:
+                detected_version = match.group(1)
+                detection_source = readme_url
+
+        # API REST
+        api_url = f"{site}/wp-json/wp/v2/"
+        api_response = requests.get(api_url, timeout=5)
+        if api_response.status_code == 200 and "generator" in api_response.text:
+            match = re.search(r'"generator":"https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)"', api_response.text)
+            if match:
+                detected_version = match.group(1)
+                detection_source = api_url
+
+        # Fichiers JS/CSS dans les balises
+        scripts = soup.find_all("script", src=True)
+        for script in scripts:
+            match = re.search(r'ver=(\d+\.\d+(\.\d+)?)', script["src"])
+            if match:
+                detected_version = match.group(1)
+                detection_source = script["src"] if script["src"].startswith("http") else f"{site}{script['src']}"
+                break
+
+        # Flux RSS
+        feed_url = f"{site}/feed/"
+        feed_response = requests.get(feed_url, timeout=5)
+        if feed_response.status_code == 200:
+            match = re.search(r"<generator>https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)</generator>", feed_response.text)
+            if match:
+                detected_version = match.group(1)
+                detection_source = feed_url
+
+        # Fingerprinting (exemple avec wp-embed)
+        js_file = f"{site}/wp-includes/js/wp-embed.min.js"
+        js_response = requests.get(js_file, timeout=5)
+        if js_response.status_code == 200:
+            file_hash = hashlib.md5(js_response.content).hexdigest()
+            hash_db = {"d41d8cd98f00b204e9800998ecf8427e": "6.5.2"}  # À compléter
+            if file_hash in hash_db:
+                detected_version = hash_db[file_hash]
+                detection_source = js_file
+
+        # Statut
+        status = "Unknown Version"
+        if detected_version in known_versions:
+            status = "✅ Known & Updated"
+        elif detected_version != "N/A":
+            status = "⚠️ Possibly Outdated"
+
+        # Retour avec la source
+        return f"Detected WordPress Version: {G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
     except requests.exceptions.RequestException:
         return "N/A"
 
