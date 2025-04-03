@@ -400,6 +400,7 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
     return headers
 # Fonction pour tester les fichiers WordPress
 # Fonction pour tester les fichiers WordPress
+# Fonction pour tester les fichiers WordPress
 def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     wp_version = check_wordpress_version(site)  # Récupérer la version de WP mais ne pas l'afficher ici
     
@@ -430,7 +431,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     data_sent = 0  # Taille des données envoyées (en octets)
     data_received = 0  # Taille des données reçues (en octets)
 
-    # Modification ici : ajout de bar_format pour enlever les ":"
+    # Barre de progression sans version dans le postfix
     progress_bar = tqdm(total=min(len(paths), num_pages), desc="VelvetFuzz|", unit="req", ncols=120, leave=True,
                         bar_format="{desc} {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]")
     progress_bar.set_postfix(found=0, errors=0, p80=port_80_status, p443=port_443_status)
@@ -450,51 +451,51 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
             if response.status_code == 200:
                 found_urls.append(url)
                 progress_bar.bar_format = f"{G}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre verte
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)  # Pas de version ici
                 print(f"{G}[+]✅ [Found] ✅ [+]{X} {url}")  # Affiche les URL trouvées
             elif response.status_code == 403:
                 errors += 1
                 progress_bar.bar_format = f"{P}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre pourpre pour 403
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{P}[+][403 Forbidden][+]{X} {url}")  # Affiche 403 Forbidden
             elif response.status_code == 404:
                 errors += 1
                 progress_bar.bar_format = f"{R}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre rouge pour 404
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{R}[+] ❌ [404 Not Found] ❌ [+]{X} {url}")  # Affiche 404 Not Found
             elif response.status_code == 400:
                 errors += 1
                 progress_bar.bar_format = f"{B}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre bleue pour 400
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{B}[+][400 Bad Request][+]{X} {url}")  # Affiche 400 Bad Request
             elif response.status_code == 405:
                 errors += 1
                 progress_bar.bar_format = f"{Y}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre jaune pour 405
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{Y}[+][405 Method Not Allowed][+]{X} {url}")  # Affiche 405 Method Not Allowed
             elif response.status_code == 500:
                 errors += 1
                 progress_bar.bar_format = f"{M}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre marron pour 500
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{M}[+][500 Internal Server Error][+]{X} {url}")  # Affiche 500 Internal Server Error
             elif response.status_code == 504:
                 errors += 1
                 progress_bar.bar_format = f"{M}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre marron pour 504
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"{M}[+][504 Gateway Timeout][+]{X} {url}")  # Affiche 504 Gateway Timeout
             else:
                 errors += 1
                 progress_bar.bar_format = f"{R}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre rouge pour autres erreurs
-                progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+                progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
                 print(f"[{response.status_code}] {url}")  # Affiche les autres erreurs
 
         except requests.exceptions.RequestException as e:
             errors += 1
             progress_bar.bar_format = f"{R}{{desc}} {{percentage:3.0f}}%|{{bar}}| {{n_fmt}}/{{total_fmt}} [{{elapsed}}<{{remaining}}, {{rate_fmt}}{{postfix}}]{X}"  # Barre rouge pour erreurs
-            progress_bar.set_postfix(found=len(found_urls), errors=errors, version=wp_version if wp_version else "N/A")
+            progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
             print(f"{R}[Error]{X} {url} - {e}")  # Affiche l'erreur
 
-        # Mise à jour de la barre après chaque requête
+        # Mise à jour de la barre après chaque requête (sans version)
         progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
         progress_bar.update(1)
         
@@ -503,6 +504,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Fermer proprement la barre de progression après la boucle
     progress_bar.close()
+
     
     
 
@@ -526,11 +528,14 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
         logging.warning(f"[+] No WordPress paths found[+]")
     
     
-     
+     # Afficher la version WordPress à la fin
     if wp_version and wp_version != "N/A":
-      print(f"\n{C}[+] WordPress Version Found: {wp_version}")
+        print(f"\n{C}[+] WordPress Version Found: {wp_version}{X}")
     else:
-      print(f"\n{R}[+] No WordPress Version Detected [+]{X}")
+        print(f"\n{R}[+] No WordPress Version Detected [+]{X}")
+    
+
+    
 
     
    
@@ -775,12 +780,12 @@ def check_wordpress_version(site):
         # Statut
         status = "Unknown Version"
         if detected_version in known_versions:
-            status = "✅ Known & Updated"
+            status = "✅"
         elif detected_version != "N/A":
-            status = "⚠️ Possibly Outdated"
+            status = "Possibly Outdated"
 
         # Retour avec la source
-        return f"Detected WordPress Version: {G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
+        return f"{G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
     except requests.exceptions.RequestException:
         return "N/A"
 
