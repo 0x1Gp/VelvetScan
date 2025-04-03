@@ -508,7 +508,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
             print(f"{R}[Error]{X} {url} - {e}")  # Affiche l'erreur
 
         # Mise à jour de la barre après chaque requête
-        progress_bar.set_postfix(found=len(found_urls), errors=errors, version="N/A", p80=port_80_status, p443=port_443_status)
+        progress_bar.set_postfix(found=len(found_urls), errors=errors, p80=port_80_status, p443=port_443_status)
         progress_bar.update(1)
         
         sys.stdout.flush()  # Forcer l'affichage immédiat
@@ -793,7 +793,7 @@ def check_wordpress_version(site):
             status = "⚠️ Possibly Outdated"
 
         # Retour avec la source
-        return f"Detected WordPress Version: {G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
+        return f"{G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
     except requests.exceptions.RequestException:
         return "N/A"
 
