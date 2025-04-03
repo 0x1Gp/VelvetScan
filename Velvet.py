@@ -429,12 +429,8 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
     data_sent = 0  # Taille des données envoyées (en octets)
     data_received = 0  # Taille des données reçues (en octets)
 
-    # Créer la barre de progression au début, une seule fois
-    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Loading", unit="req", ncols=80, dynamic_ncols=True, leave=True)
-
-    # Initialiser la barre avec un postfix pour afficher les statistiques
-    #Mise à jour initiale avec les ports (ils resteront affichés)
-    progress_bar.set_postfix(found=0, errors=0, version="N/A")
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Loading", unit="req", ncols=120, leave=True)
+    progress_bar.set_postfix(found=0, errors=0, p80=port_80_status, p443=port_443_status)
     
 
     
@@ -793,7 +789,7 @@ def check_wordpress_version(site):
             status = "⚠️ Possibly Outdated"
 
         # Retour avec la source
-        return f"{G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
+        return f"Detected WordPress Version: {G} {detected_version} ({status}) {X} {C} url | {G} {detection_source}"
     except requests.exceptions.RequestException:
         return "N/A"
 
