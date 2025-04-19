@@ -560,7 +560,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Afficher les statistiques finales
     print(f"{C}[+] User-Agent Used: {X}{G}{headers['User-Agent']}{X}")#user agent 
-    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     print(f"{C}[+] Ports Scannés: 80 -> {port_80_status} | 443 -> {port_443_status}{X}")
     # Affichage de l'état de chaque port
@@ -1250,6 +1250,9 @@ def get_headers(use_random_ua, browser_type=None, ua_file="Agent/user_agents.txt
         headers["User-Agent"] = "Mozilla/5.0 (compatible; VelvetScanner/1.0; +https://example.com/bot)"
 
     return headers
+
+
+
 # Fonction pour tester les fichiers JavaScript
 def test_js_files(site, js_file, delay, num_pages):
     target_host = site.replace("http://", "").replace("https://", "").split('/')[0]

@@ -9,7 +9,7 @@
 /wp-admin/css/install.min.css?ver=6.7.1
 /wp-admin/css/install.min.css?ver=6.7.1
 /wp-admin/css/install.min.css?ver=6.7.1
-
+/wp-content/plugins/php-event-calendar/js/file-uploader/
 /FTP/
 /wordfence-waf.php
 /wp-includes/
