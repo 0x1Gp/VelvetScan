@@ -873,6 +873,9 @@ def check_wordpress_version(site):
 
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
 
+
+
+
 def check_critical_ports(target_host):
     ports = {21: "FTP", 22: "SSH", 23: "Telnet", 3389: "RDP", 5900: "VNC"}
     port_status = {}
@@ -911,6 +914,12 @@ def is_port_open(host, port=80, timeout=2):
         return False
 
 
+def check_ports(target_host):
+    """ Vérifie l'état des ports 80 et 443 """
+    port_80_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 80) else f"{R}[+]🔴 Closed🔴[+]{X}"
+    port_443_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 443) else f"{R}[+]🔴 Closed🔴 [+]{X}"
+    return port_80_status, port_443_status
+
 
 #######recherche dans la liste d'user agent pour en pioché un aléatoirement
 def load_user_agents(file_path="Agent/user_agents.txt"):
@@ -948,7 +957,8 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     except socket.gaierror:
         site_ip = "Unknown"
     
-    
+    # Vérifier les ports au début et les garder en mémoire
+    port_80_status, port_443_status = check_ports(target_host)
     
     
     if not os.path.exists(joomla_file):
@@ -964,7 +974,7 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     data_sent = 0  # Taille des données envoyées (en octets)
     data_received = 0  # Taille des données reçues (en octets)
 
-    progress_bar = tqdm(total=min(len(paths), num_pages), desc="Scanning", unit="req", ncols=80, dynamic_ncols=True, leave=True)
+    progress_bar = tqdm(total=min(len(paths), num_pages), desc="VelvetFuzz", unit="req", ncols=80, dynamic_ncols=True, leave=True)
     progress_bar.set_postfix(found=0, errors=0)
     start_time = time.time()
     use_random_ua = True  # Définir la valeur en fonction de votre logique
@@ -1064,7 +1074,8 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
     print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     #####Scan ssh/rdp/ftp 
-    ###nt(f"{C}[+] Port 80 Status: {port_80_status}{X}")
+    ####Port status RDP/ssh/ftp etc...
+    print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
     if port_status:  # Si le dictionnaire n'est pas vide
        for port, status_info in port_status.items():
         print(f"{C}[+] Port {port} ({status_info['name']}): {status_info['status']} - {status_info['info']}{X}")
@@ -1163,7 +1174,7 @@ def test_joomla_files(site, joomla_file, delay,number_of_pages ):
 #######################################################################
 
 
-############################################ ☑️JS Detection ☑️
+############################################ ☑️JS Detection ☑️ ### A finir le scan de port 80 
 
 # Constantes pour la mise en forme des couleurs
 R, G, P, B, M, Y, X, C = '\033[31m', '\033[32m', '\033[35m', '\033[34m', '\033[33m', '\033[33m', '\033[0m', '\033[36;1m'
@@ -1204,6 +1215,12 @@ def is_port_open(host, port=80, timeout=2):
             return True
     except (socket.timeout, ConnectionRefusedError, OSError):
         return False
+###port 80 
+def check_ports(target_host):
+    """ Vérifie l'état des ports 80 et 443 """
+    port_80_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 80) else f"{R}[+]🔴 Closed🔴[+]{X}"
+    port_443_status = f"{G}[+]🟢 Open🟢[+] {X}" if is_port_open(target_host, 443) else f"{R}[+]🔴 Closed🔴 [+]{X}"
+    return port_80_status, port_443_status
 
 
 
@@ -1242,7 +1259,8 @@ def test_js_files(site, js_file, delay, num_pages):
     except socket.gaierror:
         site_ip = "Unknown"
     
-    
+    # Vérifier les ports au début et les garder en mémoire
+    port_80_status, port_443_status = check_ports(target_host)
     
     if not os.path.exists(js_file):
         print(f"{R}[Error] Le fichier JS spécifié n'existe pas !{X}")

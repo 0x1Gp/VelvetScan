@@ -6,6 +6,10 @@
 /wp-json/wp/v2/users/
 /wp-content/plugins/mailin/js/mailin-front.js?ver=1740564007
 /v2.0/.well-known/openid-configuration
+/wp-admin/css/install.min.css?ver=6.7.1
+/wp-admin/css/install.min.css?ver=6.7.1
+/wp-admin/css/install.min.css?ver=6.7.1
+
 /FTP/
 /wordfence-waf.php
 /wp-includes/
