@@ -605,153 +605,207 @@ X = "\033[0m"   # Réinitialisation
 
 def check_wordpress_version(site):
     known_versions = [
-    "6.8",      # Toute dernière version prévue avril 2025 (RC2 au 1er avril 2025)
-    "6.7.2",    # Mineure, détectée dans ton exemple, pas de vulnérabilités majeures connues
-    "6.7.1",    # Mineure, décembre 2024
-    "6.7",      # 12 novembre 2024, stable
-    "6.6.1",    # Mineure, août 2024
-    "6.6",      # 16 juillet 2024, stable
-    "6.5.5",    # Mineure, été 2024, corrige XSS authentifié (CVE-2024-6308)
-    "6.5.4",    # Mineure, vulnérable à XSS authentifié via HTML API
-    "6.5.3",    # Mineure, vulnérable à Directory Traversal sur Windows
-    "6.5.2",    # Mineure, printemps 2024
-    "6.5.1",    # Mineure, printemps 2024
-    "6.5",      # 2 avril 2024, stable
-    "6.4.3",    # Mineure, janvier 2024, corrige RCE critique (CVE-2023-6875)
-    "6.4.2",    # Mineure, vulnérable à RCE via plugin upload
-    "6.4.1",    # Mineure, novembre 2023
-    "6.4",      # 7 novembre 2023, stable
-    "6.3.2",    # Mineure, octobre 2023
-    "6.3.1",    # Mineure, septembre 2023
-    "6.3",      # 8 août 2023, vulnérable à XSS authentifié (CVE-2023-3999)
-    "6.2.2",    # Mineure, mai 2023
-    "6.2.1",    # Mineure, avril 2023
-    "6.2",      # 28 mars 2023, stable
-    "6.1.3",    # Mineure, août 2023
-    "6.1.2",    # Mineure, juillet 2023
-    "6.1.1",    # Mineure, décembre 2022
-    "6.1",      # 1er novembre 2022, vulnérable à SQL Injection (CVE-2022-21664)
-    "6.0.3",    # Mineure, octobre 2022
-    "6.0.2",    # Mineure, août 2022
-    "6.0.1",    # Mineure, juin 2022
-    "6.0",      # 24 mai 2022, stable
-    "5.9.3",    # Mineure, avril 2022
-    "5.9.2",    # Mineure, mars 2022
-    "5.9.1",    # Mineure, février 2022
-    "5.9",      # 25 janvier 2022, vulnérable à XSS authentifié (CVE-2022-0215)
-    "5.8.4",    # Mineure, avril 2022
-    "5.8.3",    # Mineure, janvier 2022
-    "5.8.2",    # Mineure, décembre 2021
-    "5.8.1",    # Mineure, septembre 2021
-    "5.8",      # 20 juillet 2021, stable
-    "5.7.4",    # Mineure, décembre 2021
-    "5.7.3",    # Mineure, octobre 2021
-    "5.7.2",    # Mineure, mai 2021
-    "5.7.1",    # Mineure, avril 2021
-    "5.7",      # 9 mars 2021, vulnérable à XSS via REST API (CVE-2021-24117)
-    "5.6.4",    # Mineure, mai 2021
-    "5.6.3",    # Mineure, avril 2021
-    "5.6.2",    # Mineure, mars 2021
-    "5.6.1",    # Mineure, février 2021
-    "5.6"       # 8 décembre 2020, vulnérable à XSS et RCE (CVE-2020-28032), plus ancienne de ton bloc
-    "5.5.3",    # Mineure, octobre 2020
-    "5.5.2",    # Mineure, septembre 2020
-    "5.5.1",    # Mineure, août 2020
-    "5.5",      # 11 août 2020
-    "5.4.2",    # Mineure, juin 2020
-    "5.4.1",    # Mineure, avril 2020
-    "5.4",      # 31 mars 2020
-    "5.3.2",    # Mineure, décembre 2019
-    "5.3.1",    # Mineure, novembre 2019
-    "5.3",      # 12 novembre 2019
-    "5.2.4",    # Mineure, octobre 2019
-    "5.2.3",    # Mineure, septembre 2019
-    "5.2.2",    # Mineure, juillet 2019
-    "5.2.1",    # Mineure, mai 2019
-    "5.2",      # 7 mai 2019
-    "5.1.1",    # Mineure, mars 2019
-    "5.1",      # 21 février 2019
-    "5.0.3",    # Mineure, janvier 2019
-    "5.0.2",    # Mineure, décembre 2018
-    "5.0.1",    # Mineure, décembre 2018
-    "5.0",      # 6 décembre 2018, vulnérable à XSS (CVE-2018-20153)
-    "4.9.8",    # Mineure, août 2018
-    "4.9.7",    # Mineure, juillet 2018
-    "4.9.6",    # Mineure, mai 2018
-    "4.9.5",    # Mineure, avril 2018
-    "4.9.4",    # Mineure, février 2018
-    "4.9.3",    # Mineure, février 2018
-    "4.9.2",    # Mineure, janvier 2018
-    "4.9.1",    # Mineure, novembre 2017
-    "4.9",      # 14 novembre 2017
-    "4.8",      # 8 juin 2017
-    "4.7",      # 6 décembre 2016, vulnérable à REST API (CVE-2017-5487)
-    "4.6",      # 16 août 2016
-    "4.5",      # 12 avril 2016
-    "4.4",      # 8 décembre 2015
-    "4.3",      # 18 août 2015
-    "4.2",      # 23 avril 2015, vulnérable à XSS (CVE-2015-3438)
-    "4.1",      # 18 décembre 2014
-    "4.0",      # 4 septembre 2014
-    "3.9",      # 16 avril 2014
-    "3.8",      # 12 décembre 2013
-    "3.7",      # 24 octobre 2013
-    "3.6",      # 1er août 2013, vulnérable à DoS (CVE-2013-5738)
-    "3.5",      # 11 décembre 2012
-    "3.4",      # 13 juin 2012
-    "3.3",      # 12 décembre 2011
-    "3.2",      # 4 juillet 2011
-    "3.1",      # 23 février 2011
-    "3.0",      # 17 juin 2010
-    "2.9",      # 19 décembre 2009
-    "2.8",      # 11 juin 2009
-    "2.7",      # 11 décembre 2008
-    "2.6",      # 15 juillet 2008
-    "2.5",      # 29 mars 2008, vulnérable à SQL Injection (CVE-2008-5278)
-    "2.3",      # 24 septembre 2007
-    "2.2",      # 16 mai 2007
-    "2.1",      # 22 janvier 2007
-    "2.0",      # 31 décembre 2005, vulnérable à XSS (CVE-2005-4463)
-    "1.5",      # 17 février 2005
-    "1.2",      # 22 mai 2004
-    "1.0"       # 3 janvier 2004, extrêmement vulnérable (aucun support)
-]
+        "6.8", "6.7.2", "6.7.1", "6.7", "6.6.1", "6.6", "6.5.5", "6.5.4", "6.5.3", "6.5.2", "6.5.1", "6.5",
+        "6.4.3", "6.4.2", "6.4.1", "6.4", "6.3.2", "6.3.1", "6.3", "6.2.2", "6.2.1", "6.2", "6.1.3", "6.1.2",
+        "6.1.1", "6.1", "6.0.3", "6.0.2", "6.0.1", "6.0", "5.9.3", "5.9.2", "5.9.1", "5.9", "5.8.4", "5.8.3",
+        "5.8.2", "5.8.1", "5.8", "5.7.4", "5.7.3", "5.7.2", "5.7.1", "5.7", "5.6.4", "5.6.3", "5.6.2", "5.6.1",
+        "5.6", "5.5.3", "5.5.2", "5.5.1", "5.5", "5.4.2", "5.4.1", "5.4", "5.3.2", "5.3.1", "5.3", "5.2.4",
+        "5.2.3", "5.2.2", "5.2.1", "5.2", "5.1.1", "5.1", "5.0.3", "5.0.2", "5.0.1", "5.0", "4.9.8", "4.9.7",
+        "4.9.6", "4.9.5", "4.9.4", "4.9.3", "4.9.2", "4.9.1", "4.9", "4.8", "4.7", "4.6", "4.5", "4.4", "4.3",
+        "4.2", "4.1", "4.0", "3.9", "3.8", "3.7", "3.6", "3.5", "3.4", "3.3", "3.2", "3.1", "3.0", "2.9",
+        "2.8", "2.7", "2.6", "2.5", "2.3", "2.2", "2.1", "2.0", "1.5", "1.2", "1.0"
+    ]
 
-    # Versions connues des plugins (exemples, à compléter)
+    # Versions connues des plugins (structure améliorée)
     known_plugin_versions = {
-        "google-analytics-for-wordpress": "9.4.1",  # MonsterInsights
-        "yoast": "21.1",                           # Yoast SEO
-        "woocommerce": "8.7.0",                    # WooCommerce
-        "elementor": "3.20.0",                     # Elementor
-        "all-in-one-seo": "4.8.1",                 # All in One SEO (AIOSEO)
-        "speculation-rules": "1.5.0",              # Speculation Rules
-        # Ajoute d'autres plugins et leurs versions récentes ici
-          "file-manager": "7.2",                    # RCE massive en 2020 (CVE-2020-25213)
-    "wp-database-backup": "5.2",              # Arbitrary file download
-    "duplicator": "1.5.8",                    # Unauthenticated file download (CVE-2020-11738)
-    "elementor": "3.20.0",                    # XSS multiples et privilege escalation
-    "elementor-pro": "3.20.1",                # Authenticated RCE avec WooCommerce
-    "revslider": "6.6.21",                    # RCE historique, à l'origine de la faille Panama Papers
-    "wp-file-manager": "7.2",                 # Unauthenticated RCE
-    "easy-wp-smtp": "1.5.9",                  # Options update non protégé (CVE-2020-35234)
-    "themegrill-demo-importer": "1.6.3",      # RCE sans auth (CVE-2020-5765)
-    "wp-live-chat-support": "8.2.0",          # Arbitrary file upload
-    "mailpoet": "4.30.0",                     # Authenticated option update
-    "advanced-custom-fields": "6.2.6",        # XSS stored
-    "woo-custom-product-addons": "4.0.0",     # XSS/RCE
-    "wpbakery-page-builder": "7.2",           # Privilege escalation & CSRF
-    "gdpr-compliance": "1.5.5",               # Privilege escalation
-    "give": "2.33.0",                         # Stored XSS
-    "social-warfare": "4.4.2",                # RCE (CVE-2019-9978)
-    "nextgen-gallery": "3.42",                # Authenticated SQLi
-    "wp-rocket": "3.16.2",                    # Arbitrary file deletion
-    "loginizer": "1.7.9",                     # CSRF
-    "popup-builder": "4.2.3",                 # Stored XSS
-    "real-time-find-and-replace": "4.2.5",    # Stored XSS
-    "formidable-forms": "6.8",                # Arbitrary file upload
-    "ninja-forms": "3.7.2",                   # Authenticated option injection
-    "easy-digital-downloads": "3.2.8",        # CSV injection & CSRF
+        "google-analytics-for-wordpress": {
+            "latest": "9.4.1",
+            "vulnerable": ["7.10.4"],
+            "cve": ["CVE-2020-11566"],
+        },
+        "yoast": {
+            "latest": "23.5",
+            "vulnerable": ["20.7", "21.1"],
+            "cve": ["CVE-2023-0584"],
+        },
+        "woocommerce": {
+            "latest": "9.2.0",
+            "vulnerable": ["8.7.0"],
+            "cve": ["CVE-2024-3399"],
+        },
+        "elementor": {
+            "latest": "3.28.3",
+            "vulnerable": ["3.20.0", "3.6.2"],
+            "cve": ["CVE-2022-2949"],
+        },
+        "elementor-pro": {
+            "latest": "3.28.2",
+            "vulnerable": ["3.20.1"],
+            "cve": ["CVE-2023-32243"],
+        },
+        "all-in-one-seo": {
+            "latest": "4.8.1",
+            "vulnerable": ["4.1.0"],
+            "cve": ["CVE-2021-24307"],
+        },
+        "speculation-rules": {
+            "latest": "1.5.0",
+            "vulnerable": [],
+            "cve": [],
+        },
+        "wp-file-manager": {
+            "latest": "7.2.5",
+            "vulnerable": ["6.9", "7.2"],
+            "cve": ["CVE-2020-25213"],
+        },
+        "wp-database-backup": {
+            "latest": "6.0",
+            "vulnerable": ["5.2"],
+            "cve": [],
+        },
+        "duplicator": {
+            "latest": "1.5.8",
+            "vulnerable": ["1.3.26"],
+            "cve": ["CVE-2020-11738"],
+        },
+        "revslider": {
+            "latest": "6.6.21",
+            "vulnerable": ["4.1.4"],
+            "cve": ["CVE-2014-9735"],
+        },
+        "easy-wp-smtp": {
+            "latest": "2.3.0",
+            "vulnerable": ["1.5.9"],
+            "cve": ["CVE-2020-35234"],
+        },
+        "themegrill-demo-importer": {
+            "latest": "1.8.0",
+            "vulnerable": ["1.6.3"],
+            "cve": ["CVE-2020-5765"],
+        },
+        "wp-live-chat-support": {
+            "latest": "9.0.0",
+            "vulnerable": ["8.2.0"],
+            "cve": [],
+        },
+        "mailpoet": {
+            "latest": "4.30.0",
+            "vulnerable": ["3.0.0"],
+            "cve": [],
+        },
+        "advanced-custom-fields": {
+            "latest": "6.2.6",
+            "vulnerable": ["5.8.7"],
+            "cve": ["CVE-2021-24268"],
+        },
+        "woo-custom-product-addons": {
+            "latest": "4.0.0",
+            "vulnerable": ["3.0.0"],
+            "cve": [],
+        },
+        "wpbakery-page-builder": {
+            "latest": "7.2",
+            "vulnerable": ["6.7"],
+            "cve": ["CVE-2021-24310"],
+        },
+        "gdpr-compliance": {
+            "latest": "1.5.5",
+            "vulnerable": ["1.5.2"],
+            "cve": [],
+        },
+        "give": {
+            "latest": "2.33.0",
+            "vulnerable": ["2.10.2"],
+            "cve": [],
+        },
+        "social-warfare": {
+            "latest": "4.4.2",
+            "vulnerable": ["3.5.2"],
+            "cve": ["CVE-2019-9978"],
+        },
+        "nextgen-gallery": {
+            "latest": "3.42",
+            "vulnerable": ["3.3.6"],
+            "cve": ["CVE-2020-35942"],
+        },
+        "wp-rocket": {
+            "latest": "3.16.2",
+            "vulnerable": ["3.5.5"],
+            "cve": [],
+        },
+        "loginizer": {
+            "latest": "1.7.9",
+            "vulnerable": ["1.6.4"],
+            "cve": [],
+        },
+        "popup-builder": {
+            "latest": "4.2.3",
+            "vulnerable": ["4.1.13"],
+            "cve": [],
+        },
+        "real-time-find-and-replace": {
+            "latest": "4.2.5",
+            "vulnerable": ["4.0.2"],
+            "cve": [],
+        },
+        "formidable-forms": {
+            "latest": "6.8",
+            "vulnerable": ["5.2"],
+            "cve": [],
+        },
+        "ninja-forms": {
+            "latest": "3.7.2",
+            "vulnerable": ["3.4.24"],
+            "cve": ["CVE-2021-24209"],
+        },
+        "easy-digital-downloads": {
+            "latest": "3.2.8",
+            "vulnerable": ["2.9.26"],
+            "cve": [],
+        },
+        "contact-form-7": {
+            "latest": "5.9.5",
+            "vulnerable": ["5.0.5"],
+            "cve": ["CVE-2019-1716"],
+        },
+        "wordfence": {
+            "latest": "7.11.5",
+            "vulnerable": ["7.4.6"],
+            "cve": ["CVE-2020-11658"],
+        },
+        "jetpack": {
+            "latest": "13.2.0",
+            "vulnerable": ["9.3.2"],
+            "cve": ["CVE-2021-24119"],
+        },
+        "wp-super-cache": {
+            "latest": "1.12.0",
+            "vulnerable": ["1.7.1"],
+            "cve": ["CVE-2021-24238"],
+        },
+        "w3-total-cache": {
+            "latest": "2.7.0",
+            "vulnerable": ["2.1.1"],
+            "cve": ["CVE-2021-24239"],
+        },
     }
+
+    def check_plugin_status(plugin_name, plugin_version):
+        if plugin_name in known_plugin_versions:
+            plugin_info = known_plugin_versions[plugin_name]
+            latest_version = plugin_info["latest"]
+            vulnerable_versions = plugin_info.get("vulnerable", [])
+            cve_list = plugin_info.get("cve", [])
+
+            # Comparer les versions
+            status = "✅ Up to date"
+            if plugin_version < latest_version:
+                status = "⚠️ Obsolete"
+            if plugin_version in vulnerable_versions:
+                status += f" (🚨 Vulnerable Version {cve_list if cve_list else ''})"
+
+            return status, latest_version
+        return "Unknown Version", None
 
     try:
         response = requests.get(site, timeout=5)
@@ -760,10 +814,10 @@ def check_wordpress_version(site):
         
         detected_version = "N/A"
         detection_source = "Not detected"
-        plugin_versions = []  # Liste pour stocker les plugins détectés avec leur statut
+        plugin_versions = []
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # 1. Meta tags (détection WordPress et plugins)
+        # 1. Meta tags (WordPress et plugins)
         meta_generators = soup.find_all("meta", attrs={"name": "generator"})
         for meta in meta_generators:
             content = meta.get("content", "")
@@ -777,54 +831,71 @@ def check_wordpress_version(site):
                 if version_match:
                     plugin_name = content.split(version_match.group(0))[0].strip().lower() or "unknown-plugin"
                     plugin_version = version_match.group(0)
-                    # Vérifier si le plugin est à jour
-                    status = "⚠️ Obsolete" if plugin_name in known_plugin_versions and plugin_version < known_plugin_versions[plugin_name] else "✅ Up to date"
-                    color = Y if status == "⚠️ Obsolete" else G
+                    status, _ = check_plugin_status(plugin_name, plugin_version)
+                    color = Y if "⚠️" in status else G
                     plugin_versions.append(f"{color}Plugin {plugin_name}: {plugin_version} {status}{X} ({site} - meta generator tag)")
 
         # 2. Headers HTTP
-        if "X-Powered-By" in response.headers and "WordPress" in response.headers["X-Powered-By"]:
+        if detected_version == "N/A" and "X-Powered-By" in response.headers and "WordPress" in response.headers["X-Powered-By"]:
             detected_version = response.headers["X-Powered-By"].split("WordPress/")[-1]
             detection_source = f"{site} (HTTP header X-Powered-By)"
 
         # 3. Readme.html
-        readme_url = f"{site}/readme.html"
-        readme_response = requests.get(readme_url, timeout=5)
-        if readme_response.status_code == 200 and "WordPress" in readme_response.text:
-            match = re.search(r"WordPress (\d+\.\d+(\.\d+)?)", readme_response.text)
-            if match:
-                detected_version = match.group(1)
-                detection_source = readme_url
+        if detected_version == "N/A":
+            readme_url = f"{site}/readme.html"
+            readme_response = requests.get(readme_url, timeout=5)
+            if readme_response.status_code == 200 and "WordPress" in readme_response.text:
+                match = re.search(r"WordPress (\d+\.\d+(\.\d+)?)", readme_response.text)
+                if match:
+                    detected_version = match.group(1)
+                    detection_source = readme_url
 
         # 4. API REST
-        api_url = f"{site}/wp-json/wp/v2/"
-        api_response = requests.get(api_url, timeout=5)
-        if api_response.status_code == 200 and "generator" in api_response.text:
-            match = re.search(r'"generator":"https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)"', api_response.text)
-            if match:
-                detected_version = match.group(1)
-                detection_source = api_url
+        if detected_version == "N/A":
+            api_url = f"{site}/wp-json/wp/v2/"
+            api_response = requests.get(api_url, timeout=5)
+            if api_response.status_code == 200 and "generator" in api_response.text:
+                match = re.search(r'"generator":"https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)"', api_response.text)
+                if match:
+                    detected_version = match.group(1)
+                    detection_source = api_url
 
         # 5. Flux RSS
-        feed_url = f"{site}/feed/"
-        feed_response = requests.get(feed_url, timeout=5)
-        if feed_response.status_code == 200:
-            match = re.search(r"<generator>https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)</generator>", feed_response.text)
-            if match:
-                detected_version = match.group(1)
-                detection_source = feed_url
+        if detected_version == "N/A":
+            feed_url = f"{site}/feed/"
+            feed_response = requests.get(feed_url, timeout=5)
+            if feed_response.status_code == 200:
+                match = re.search(r"<generator>https://wordpress.org/\?v=(\d+\.\d+(\.\d+)?)</generator>", feed_response.text)
+                if match:
+                    detected_version = match.group(1)
+                    detection_source = feed_url
 
-        # 6. Fingerprinting (exemple avec wp-embed)
-        js_file = f"{site}/wp-includes/js/wp-embed.min.js"
-        js_response = requests.get(js_file, timeout=5)
-        if js_response.status_code == 200:
-            file_hash = hashlib.md5(js_response.content).hexdigest()
-            hash_db = {"d41d8cd98f00b204e9800998ecf8427e": "6.5.2"}  # À compléter
-            if file_hash in hash_db:
-                detected_version = hash_db[file_hash]
-                detection_source = js_file
-        
-        # 7. Fichiers JS/CSS (dernier recours, avec détection des plugins)
+        # 6. Fingerprinting (wp-embed avec hash)
+        if detected_version == "N/A":
+            js_file = f"{site}/wp-includes/js/wp-embed.min.js"
+            js_response = requests.get(js_file, timeout=5)
+            if js_response.status_code == 200:
+                file_hash = hashlib.md5(js_response.content).hexdigest()
+                hash_db = {"d41d8cd98f00b204e9800998ecf8427e": "6.5.2"}  # À compléter
+                if file_hash in hash_db:
+                    detected_version = hash_db[file_hash]
+                    detection_source = js_file
+
+        # 6.5. Vérification explicite de wp-embed.min.js avec ver= (ajout pour ton ami)
+        if detected_version == "N/A":
+            wp_embed_url = f"{site}/wp-includes/js/wp-embed.min.js"
+            wp_embed_response = requests.get(wp_embed_url, timeout=5)
+            if wp_embed_response.status_code == 200:
+                embed_scripts = soup.find_all("script", src=True)
+                for script in embed_scripts:
+                    if "wp-embed.min.js" in script["src"]:
+                        match = re.search(r'ver=(\d+\.\d+(\.\d+)?)', script["src"])
+                        if match:
+                            detected_version = match.group(1)
+                            detection_source = script["src"] if script["src"].startswith("http") else f"{site}{script['src']}"
+                            break
+
+        # 7. Fichiers JS/CSS (WordPress uniquement wp-embed, plugins séparés)
         if detected_version == "N/A":
             scripts = soup.find_all("script", src=True)
             for script in scripts:
@@ -832,26 +903,26 @@ def check_wordpress_version(site):
                 if match:
                     potential_version = match.group(1)
                     potential_source = script["src"] if script["src"].startswith("http") else f"{site}{script['src']}"
-                    if "/wp-content/plugins/" not in potential_source:
+                    # WordPress uniquement pour wp-embed.min.js
+                    if "wp-includes/js/wp-embed.min.js" in potential_source:
                         detected_version = potential_version
                         detection_source = potential_source
-                    else:
+                    # Plugins dans wp-content/plugins
+                    elif "/wp-content/plugins/" in potential_source:
                         plugin_name = potential_source.split("/wp-content/plugins/")[1].split("/")[0].lower()
                         plugin_version = potential_version
-                        # Vérifier si le plugin est à jour
-                        status = "⚠️ Obsolete" if plugin_name in known_plugin_versions and plugin_version < known_plugin_versions[plugin_name] else "✅ Up to date"
-                        color = Y if status == "⚠️ Obsolete" else G
+                        status, _ = check_plugin_status(plugin_name, plugin_version)
+                        color = Y if "⚠️" in status else G
                         plugin_versions.append(f"{color}Plugin {plugin_name}: {plugin_version} {status}{X} ({potential_source})")
-                    break
 
         # Statut WordPress
         status = "Unknown Version"
         if detected_version in known_versions:
             status = "✅"
         elif detected_version != "N/A":
-            status = f"{Y}⚠️  Version Possibly Outdated{X}"
+            status = f"{Y}⚠️ Version Possibly Outdated{X}"
 
-        # Retour avec la version WordPress et les plugins détectés
+        # Retour
         if plugin_versions:
             return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{Y}[+] Detected Plugins:{X} {', '.join(plugin_versions)}"
         else:
