@@ -1071,7 +1071,7 @@ def test_joomla_files(site, joomla_file, delay, num_pages):
 
    
     print(f"{C}[+] User-Agent Used: {headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     #####Scan ssh/rdp/ftp 
     ####Port status RDP/ssh/ftp etc...
@@ -1371,7 +1371,7 @@ def test_js_files(site, js_file, delay, num_pages):
     
    
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | URL: {url}{X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP: {site_ip}")
     
     ####scan ssh /rdp/ftp
@@ -1548,7 +1548,7 @@ def test_htaccess_files(site, ht_file, delay, num_pages):
 
 
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     
     ####scan ssh /rdp/ftp
@@ -1908,7 +1908,7 @@ def test_panel_files(site, panel_file, delay, num_pages):
 
 
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | target :{site_ip} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP: {site_ip}") 
     ####scan ssh /rdp/ftp
     if port_status:  # Si le dictionnaire n'est pas vide
@@ -2117,7 +2117,7 @@ def test_admin_combinations(site, admin_file, delay, num_pages):
 
 
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     ####Port status RDP/ssh/ftp etc...
     ##print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
@@ -2421,7 +2421,7 @@ def test_api_combinations(site, api_file, delay, num_pages):
      
     # Affichage des statistiques finales
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
-    print(f"{C}[+] Server: {server_type} | target :{X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     ####Port status RDP/ssh/ftp etc...
     ##print(f"{C}[+] Port 80 Status: {port_80_status}{X}")
