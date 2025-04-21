@@ -597,6 +597,18 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 # Liste des versions connues de WordPress (simplifiée pour l'exemple)
 # Fonction pour vérifier la version de WordPress
 # Safe Detections Headers + Aggressive detections
+
+
+
+
+
+
+
+
+
+
+
+
 # Définir les codes de couleur ANSI (à placer au début de ton script si pas déjà fait)
 G = "\033[32m"  # Vert
 Y = "\033[33m"  # Jaune

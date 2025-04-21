@@ -1,12 +1,6 @@
-html
-re
-random
-UserAgent
-socket
+fake-useragent
 colorama
-psutil 
-tqdm
-argparse
-requests
-requests
 psutil
+tqdm
+requests
+beautifulsoup4
