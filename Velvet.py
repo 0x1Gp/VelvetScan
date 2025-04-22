@@ -935,7 +935,7 @@ def check_wordpress_version(site):
             status = f"{Y}⚠️ Version Possibly Outdated{X}"
 
         # Retour
-        separator = "_" * 190
+        separator = "_" * 160
         if plugin_versions:
             return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{G}{separator}{X}\n{G}[+] Detected Plugins:{X} {', '.join(plugin_versions)}\n{G}{separator}{X}"
         else:
@@ -1993,7 +1993,7 @@ def test_panel_files(site, panel_file, delay, num_pages):
 
     print(f"{C}[+] User-Agent Used:{X} {G}{headers['User-Agent']}{X}")
     print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
-    print(f"{C}[+] Target IP: {site_ip}") 
+    print(f"{C}[+] Target IP:  {G}{site_ip}{X}") 
     ####scan ssh /rdp/ftp
     if port_status:  # Si le dictionnaire n'est pas vide
        for port, status_info in port_status.items():
