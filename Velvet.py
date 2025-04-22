@@ -560,7 +560,7 @@ def test_wordpress_files(site, wp_file, delay, num_pages, max_threads=10):
 
     # Afficher les statistiques finales
     print(f"{C}[+] User-Agent Used: {X}{G}{headers['User-Agent']}{X}")#user agent 
-    print(f"{C}[+] Server: {G}{server_type} {X}{C}| target {X} {G}{url} {X}")
+    print(f"{C}[+] Server: {G}{server_type}{X} {C}| target {X} {G}{url}{X}")
     print(f"{C}[+] Target IP:{X} {G}{site_ip}{X}")
     print(f"{C}[+] Ports Scannés: 80 -> {port_80_status} | 443 -> {port_443_status}{X}")
     # Affichage de l'état de chaque port
@@ -614,7 +614,7 @@ G = "\033[32m"  # Vert
 Y = "\033[33m"  # Jaune
 C = "\033[36m"  # Cyan (pour la source)
 X = "\033[0m"   # Réinitialisation
-
+###Fix 
 def check_wordpress_version(site):
     known_versions = [
         "6.8", "6.7.2", "6.7.1", "6.7", "6.6.1", "6.6", "6.5.5", "6.5.4", "6.5.3", "6.5.2", "6.5.1", "6.5",
@@ -935,10 +935,11 @@ def check_wordpress_version(site):
             status = f"{Y}⚠️ Version Possibly Outdated{X}"
 
         # Retour
+        separator = "_" * 210
         if plugin_versions:
-            return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{Y}[+] Detected Plugins:{X} {', '.join(plugin_versions)}"
+            return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{G}{separator}{X}\n{G}[+] Detected Plugins:{X} {', '.join(plugin_versions)}\n{G}{separator}{X}"
         else:
-            return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}"
+            return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{G}{separator}{X}"
     except requests.exceptions.RequestException:
         return "N/A"
 ############################################################################################☑️ 🔝Wordpress🔝 ☑️
