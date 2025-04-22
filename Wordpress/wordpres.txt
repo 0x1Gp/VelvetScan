@@ -14,6 +14,8 @@
 /wordfence-waf.php
 /wp-includes/
 /wp-content/
+/wp-includes/js/tinymce/plugins/compat3x/
+/plugins
 /wp-includes/PHPMailer/
 /wp-content/uploads/redux/
 /wp-content/plugins/wp-crontrol/readme.txt
