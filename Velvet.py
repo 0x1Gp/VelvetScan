@@ -935,7 +935,7 @@ def check_wordpress_version(site):
             status = f"{Y}⚠️ Version Possibly Outdated{X}"
 
         # Retour
-        separator = "_" * 160
+        separator = "_" * 110
         if plugin_versions:
             return f"{G} {detected_version} {status} {X}\n{C}[+] Source | {G} {detection_source}\n{G}{separator}{X}\n{G}[+] Detected Plugins:{X} {', '.join(plugin_versions)}\n{G}{separator}{X}"
         else:
